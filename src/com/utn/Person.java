@@ -1,10 +1,10 @@
 package com.utn;
 
-public class Person {
-    private String name;
-    private String surname;
-    private String dni;
-    private Integer age;
+public abstract class Person {
+    protected String name;
+    protected String surname;
+    protected String dni;
+    protected Integer age;
 
     public Person(String name, String surname, String dni, Integer age) {
         this.name = name;
