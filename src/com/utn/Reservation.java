@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Reservation {
-    private static int counter = 1;
-    private int idReservation;
+    private String asds;
     private Room room;
     private List<Guest> Guests = new ArrayList<>();
     private Date checkInDate;
@@ -17,11 +16,6 @@ public class Reservation {
         Guests = guests;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
-        this.idReservation = counter++;
-    }
-
-    public int getIdReservation() {
-        return idReservation;
     }
 
     public Room getRoom() {
