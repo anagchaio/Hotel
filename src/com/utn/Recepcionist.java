@@ -1,6 +1,6 @@
 package com.utn;
 
-public class Recepcionist extends Employee implements Reservations {
+public class Recepcionist extends Employee {
     private String schedule;
 
     public Recepcionist(String name, String surname, String dni, Integer age, String userName, String password, String schedule) {
@@ -32,13 +32,11 @@ public class Recepcionist extends Employee implements Reservations {
 
     }
 
-
-    @Override
     public void roomReservation() {
 
     }
 
-    @Override
+
     public void roomCancellation() {
 
     }

@@ -7,6 +7,7 @@ public class Payment {
     private int idPayment;
     private Guest guest;
     private Date date;
+    private Double price;
 
     public Payment(Guest guest, Date date) {
         this.guest = guest;
