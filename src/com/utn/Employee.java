@@ -1,7 +1,8 @@
 package com.utn;
 
 public abstract class Employee extends Person {
-    protected Integer id = 1;
+    private static Integer counter = 1;
+    protected Integer id;
     protected String userName;
     protected String password;
 
@@ -9,7 +10,7 @@ public abstract class Employee extends Person {
         super(name, surname, dni, age);
         this.userName = userName;
         this.password = password;
-        this.id = id++;
+        this.id = counter++;
     }
 
     public Integer getId() {
