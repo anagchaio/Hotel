@@ -9,6 +9,10 @@ public class HotelManagement {
     private List<Guest> guests = new ArrayList<>();
 
     public HotelManagement() {
-        //cargar archivos
+
     }
+
+    
+
+
 }
