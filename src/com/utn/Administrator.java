@@ -1,5 +1,8 @@
 package com.utn;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class Administrator extends Employee {
     public Administrator(String name, String surname, String dni, Integer age, String userName, String password) {
         super(name, surname, dni, age, userName, password);
@@ -10,16 +13,31 @@ public class Administrator extends Employee {
 
     }
 
-    /* public Employee createUser(){
-    } */
-
-    public void changeRoomsPrice() {
-
+    //create a system user / Employee, dependending on the UserType
+    //en el main luego de crearlo, lo agrega a la lista de empleados
+    public Employee createEmployee(UserType type, String name, String surname, String dni, Integer age, String userName, String password){
+        Employee newEmployee;
+        if(type == UserType.ADMINISTRATOR){
+            newEmployee = new Administrator(name,surname,dni,age, userName,password);
+        } else {
+            newEmployee = new Recepcionist(name,surname,dni,age, userName,password);
+        }
+        return newEmployee;
     }
 
-    //No entiendo para que seria -Ana.
-    public Double calculateIncoms() {
-        Double incoms = 0.00;
-        return incoms;
+    public void changeRoomsPrice(List<Room> rooms, RoomType type, Double newPrice) {
+        for (Room room : rooms){
+            if(room.getType() == type){
+                room.setPrice(newPrice);
+            }
+        }
+    }
+
+    public Double calculateTotalIncomes(List<Invoice> invoices) {
+        Double incomes = 0.00;
+        for (Invoice invoice: invoices){
+            incomes += invoice.getPrice();
+        }
+        return incomes;
     }
 }

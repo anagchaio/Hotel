@@ -3,9 +3,8 @@ package com.utn;
 public class Recepcionist extends Employee {
     private String schedule;
 
-    public Recepcionist(String name, String surname, String dni, Integer age, String userName, String password, String schedule) {
+    public Recepcionist(String name, String surname, String dni, Integer age, String userName, String password) {
         super(name, surname, dni, age, userName, password);
-        this.schedule = schedule;
     }
 
     public String getSchedule() {
