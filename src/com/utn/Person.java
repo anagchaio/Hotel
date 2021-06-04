@@ -1,5 +1,7 @@
 package com.utn;
 
+import java.util.Objects;
+
 public abstract class Person {
     protected String name;
     protected String surname;
@@ -51,5 +53,18 @@ public abstract class Person {
                 ", surname='" + surname + '\'' +
                 ", dni='" + dni + '\'' +
                 ", age=" + age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Person)) return false;
+        Person person = (Person) o;
+        return Objects.equals(getDni(), person.getDni());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDni());
     }
 }

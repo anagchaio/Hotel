@@ -6,8 +6,10 @@ import java.util.List;
 public class HotelManagement {
     private List<Room> rooms = new ArrayList<>();
     private List<Employee> employees = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
     private List<Guest> guests = new ArrayList<>();
     private List<Invoice> invoices = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     public HotelManagement(List<Room> rooms, List<Employee> employees, List<Guest> guests, List<Invoice> invoices) {
         this.rooms = rooms;

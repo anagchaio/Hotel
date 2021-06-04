@@ -2,9 +2,9 @@ package com.utn;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Room {
-    private static int counter = 1;
     private int roomNumber;
     private RoomType type;
     private boolean isOccupied;
@@ -16,7 +16,7 @@ public class Room {
         this.type = type;
         this.isOccupied = isOccupied;
         this.price = price;
-        this.roomNumber = counter++;
+        this.roomNumber = roomNumber;
     }
 
     public int getRoomNumber() {
@@ -63,14 +63,45 @@ public class Room {
         this.roomConsumptions = roomConsumptions;
     }
 
-    public Double getGuestTotalPrice(){
+    public Double getRoomTotalPrice(){
         Double totalPrice = this.price;
-
         for(Consumption consumption:this.roomConsumptions){
             totalPrice += consumption.getTotalPrice();
         }
-
         return  totalPrice;
+    }
+
+    private String showVacancy(){
+        if(isOccupied){
+            return "OCCUPIED";
+        } else {
+            return "FREE";
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomNumber=" + roomNumber +
+                ", type=" + type +
+                "," + this.showVacancy() +
+                ", price=" + price +
+                ", roomGuests=" + roomGuests +
+                ", roomConsumptions=" + roomConsumptions +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+        Room room = (Room) o;
+        return getRoomNumber() == room.getRoomNumber();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRoomNumber());
     }
 
 }

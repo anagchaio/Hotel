@@ -1,5 +1,7 @@
 package com.utn;
 
+import java.util.Objects;
+
 public abstract class Employee extends Person {
     private static Integer counter = 1;
     protected Integer id;
@@ -11,6 +13,10 @@ public abstract class Employee extends Person {
         this.userName = userName;
         this.password = password;
         this.id = counter++;
+    }
+
+    public static void setCounter(Integer counter) {
+        Employee.counter = counter;
     }
 
     public Integer getId() {
@@ -39,5 +45,19 @@ public abstract class Employee extends Person {
             flag = true;
         }
         return flag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee)) return false;
+        if (!super.equals(o)) return false;
+        Employee employee = (Employee) o;
+        return Objects.equals(getId(), employee.getId()) && Objects.equals(getUserName(), employee.getUserName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getId(), getUserName());
     }
 }

@@ -4,19 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Consumption {
-    private static int counter = 1;
-    private int id;
+
     private List<Product> products = new ArrayList<>();
     private Double totalPrice;
 
     public Consumption(List<Product> products) {
         this.products = products;
         this.totalPrice = calculateTotalPrice();
-        this.id = counter++;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public List<Product> getProducts() {
@@ -37,5 +31,13 @@ public class Consumption {
             totalPrice += p.getPrice();
         }
        return totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Consumption{" +
+                "products=" + products +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }
