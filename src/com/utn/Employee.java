@@ -8,6 +8,10 @@ public abstract class Employee extends Person {
     protected String userName;
     protected String password;
 
+    public Employee(){
+        super();
+    }
+
     public Employee(String name, String surname, String dni, Integer age, String userName, String password) {
         super(name, surname, dni, age);
         this.userName = userName;
@@ -39,12 +43,22 @@ public abstract class Employee extends Person {
         this.password = password;
     }
 
-    protected boolean login(String userName,String password){
+    /*protected boolean checkPassword(String userName,String password){
         boolean flag = false;
         if(this.userName == userName && this.password == password){
             flag = true;
         }
         return flag;
+    }*/
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", " + super.toString() +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     @Override

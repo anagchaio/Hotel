@@ -8,6 +8,10 @@ public abstract class Person {
     protected String dni;
     protected Integer age;
 
+    public Person(){
+
+    }
+
     public Person(String name, String surname, String dni, Integer age) {
         this.name = name;
         this.surname = surname;

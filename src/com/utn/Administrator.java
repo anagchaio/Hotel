@@ -3,6 +3,11 @@ package com.utn;
 import java.util.List;
 
 public class Administrator extends Employee {
+
+    public Administrator(){
+        super();
+    }
+
     public Administrator(String name, String surname, String dni, Integer age, String userName, String password) {
         super(name, surname, dni, age, userName, password);
     }

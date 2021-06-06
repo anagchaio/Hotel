@@ -79,6 +79,17 @@ public class HotelManagement {
         }
     }
 
+    public Employee verifyUserName(String userName){
+        for(Employee employee:this.employees){
+            if(employee.getUserName() == userName){
+                return employee;
+            }
+        }
+        return null;
+    }
+
+
+
 
 
 
