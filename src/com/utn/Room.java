@@ -1,10 +1,11 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Room {
+public class Room implements Serializable {
     private int roomNumber;
     private RoomType type;
     private RoomState roomState;
