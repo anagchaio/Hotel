@@ -1,6 +1,8 @@
 package com.utn;
 
-public class Guest extends Person {
+import java.io.Serializable;
+
+public class Guest extends Person implements Serializable {
 
     /*private Integer roomNumber;*/
     private boolean isActive;
