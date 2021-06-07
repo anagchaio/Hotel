@@ -21,7 +21,7 @@ public class Recepcionist extends Employee {
         this.schedule = schedule;
     }
 
-    public void checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
+    public boolean checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
         for(Reservation reservation:reservations){
             if(reservation.getIdReservation() == reservationId){
                 Room reservedRoom = reservation.getRoom();
@@ -29,14 +29,29 @@ public class Recepcionist extends Employee {
                 for(Room room:rooms){
                     if(reservedRoom.equals(room)){
                         room.setRoomState(RoomState.OCCUPIED);
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 
-    public void checkOut(){
-
+    public boolean checkOut(int roomNumber, List<Room> rooms){
+        try{
+            for(Room room:rooms){
+                if(room.getRoomNumber() == roomNumber){
+                    room.setRoomState(RoomState.AVAILABLE);
+                    room.getRoomGuests().removeAll(room.getRoomGuests());
+                    room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
+                    return true;
+                }
+            }
+        }
+        catch (NullPointerException e) {
+            System.out.println("Exception thrown : " + e);
+        }
+        return false;
     }
 
     public void loadConsumptions(){
