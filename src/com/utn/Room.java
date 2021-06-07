@@ -7,14 +7,14 @@ import java.util.Objects;
 public class Room {
     private int roomNumber;
     private RoomType type;
-    private boolean isOccupied;
+    private RoomState roomState;
     private Double price;
     private List<Guest> roomGuests = new ArrayList<>();
     private List<Consumption> roomConsumptions = new ArrayList<>();
 
-    public Room(int roomNumber, RoomType type, boolean isOccupied, Double price){
+    public Room(int roomNumber, RoomType type, Double price){
         this.type = type;
-        this.isOccupied = isOccupied;
+        this.roomState = RoomState.AVAILABLE;
         this.price = price;
         this.roomNumber = roomNumber;
     }
@@ -31,12 +31,12 @@ public class Room {
         this.type = type;
     }
 
-    public boolean isOccupied() {
-        return isOccupied;
+    public RoomState getRoomState() {
+        return roomState;
     }
 
-    public void setOccupation(boolean occupied) {
-        isOccupied = occupied;
+    public void setRoomState(RoomState roomState) {
+        this.roomState = roomState;
     }
 
     public Double getPrice() {
@@ -71,20 +71,13 @@ public class Room {
         return  totalPrice;
     }
 
-    private String showVacancy(){
-        if(isOccupied){
-            return "OCCUPIED";
-        } else {
-            return "FREE";
-        }
-    }
 
     @Override
     public String toString() {
         return "Room{" +
                 "roomNumber=" + roomNumber +
-                ", type=" + type +
-                "," + this.showVacancy() +
+                ", type=" + type.getType() +
+                "," + roomState.getState() +
                 ", price=" + price +
                 ", roomGuests=" + roomGuests +
                 ", roomConsumptions=" + roomConsumptions +

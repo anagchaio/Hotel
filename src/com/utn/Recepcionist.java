@@ -1,5 +1,7 @@
 package com.utn;
 
+import java.util.List;
+
 public class Recepcionist extends Employee {
     private String schedule;
 
@@ -19,8 +21,18 @@ public class Recepcionist extends Employee {
         this.schedule = schedule;
     }
 
-    public void checkIn(){
-
+    public void checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
+        for(Reservation reservation:reservations){
+            if(reservation.getIdReservation() == reservationId){
+                Room reservedRoom = reservation.getRoom();
+                reservations.remove(reservation);
+                for(Room room:rooms){
+                    if(reservedRoom.equals(room)){
+                        room.setRoomState(RoomState.OCCUPIED);
+                    }
+                }
+            }
+        }
     }
 
     public void checkOut(){
@@ -38,7 +50,6 @@ public class Recepcionist extends Employee {
     public void roomReservation() {
 
     }
-
 
     public void roomCancellation() {
 
