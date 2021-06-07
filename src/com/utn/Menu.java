@@ -10,7 +10,7 @@ public class Menu {
     }
 
     /******************************************************************
-     Imprime visualizacion de inicio - simulacion de carga
+     Imprime visualizacion de inicio
      ******************************************************************/
 
     public void startMenu(){
@@ -25,7 +25,7 @@ public class Menu {
         }
     }
 
-    public void printIncorrectAnwser(){
+    public void printIncorrectAnswer(){
         System.out.println("\n\t--- Opcion incorrecta ---\n\n");
     }
     public void pause(){
@@ -47,30 +47,59 @@ public class Menu {
         }
         return null;
     }
-
-
     /****************************************************************************
-     imprime por pantalla un arreglo de caracteres con un recuadro
+                    Funcionalidades del usuario Administrador
      ****************************************************************************/
-    /*void imprimirCabecera(char cabecera[])
-    {
-        int i;
-        //system("cls");
-        System.out.println("\t%c", 201);
-        for(i=0; i<50; i++)
-        {
-            System.out.println("%c",205);
+    public void registerNewEmployee(Administrator user, List<Employee> employees, UserType userType){
+        boolean flag;
+        String dni;
+        do{
+            System.out.print("\t Ingrese el dni: ");
+            dni = new Scanner(System.in).nextLine();
+            flag = user.verifyEmployeeDni(dni,employees);
+            if(flag){
+                System.out.println("El DNI ingresado ya pertenece a un empleado. Vuelva a Intentar...");
+            }
+        } while (flag);
+        System.out.print("\t Ingrese el nombre: ");
+        String name = new Scanner(System.in).nextLine();
+        System.out.print("\t Ingrese el apellido: ");
+        String surname = new Scanner(System.in).nextLine();
+        System.out.print("\t Ingrese la edad: ");
+        int age = new Scanner(System.in).nextInt();
+        String username;
+        do{
+            System.out.print("\t Ingrese el username: ");
+            username = new Scanner(System.in).nextLine();
+            flag = user.verifySystemUsername(username,employees);
+            if(flag){
+                System.out.println("Ese usuario ya esta registrado. Vuelva a Intentar...");
+            }
+        } while (flag);
+        System.out.print("\t Ingrese el password: ");
+        String password = new Scanner(System.in).nextLine();
+
+        Employee employee = user.createEmployee(userType,name,surname,dni,age,username,password);
+        employees.add(employee);
+    }
+
+    public void findEmployeeByDni(Administrator user, List<Employee> employees){
+        System.out.print("Ingrese el DNI del empleado: ");
+        String dni = new Scanner(System.in).nextLine();
+        Employee employee = user.findEmployee(dni,employees);
+        if(employee == null){
+            System.out.println("El DNI no pertenece a ningun empleado");
+        } else {
+            System.out.println("El empleado fue encontrado: ");
+            System.out.println(employee.toString());
         }
-        System.out.println("%c\n", 187);
-        System.out.println("\t%c%32s%19c\n", 186,cabecera,186);
-        System.out.println("\t%c", 200);
-        for(i=0; i<50; i++)
-        {
-            System.out.println("%c",205);
-        }
-        System.out.println("%c", 188);
-        System.out.println("\n\n");
-    }*/
+    }
+
+
+
+
+
+
 
     /********************************************************************************
      Pide por pantalla que se ingrese un valor correspondiente a la opcion deseada
@@ -79,7 +108,9 @@ public class Menu {
         System.out.print("\n\t Ingrese opcion: ");
         return scanner.nextInt();
     }
-
+    /********************************************************************************
+     No esta funcionando :(
+     *********************************************************************************/
     public static void ClearConsole(){
         try{
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
@@ -109,7 +140,7 @@ public class Menu {
     /**********************************************************************
      Funcion que muestra mensaje de despedida
      ***********************************************************************/
-    void imprimirSalida()
+    public void printExitMessage()
     {
         System.out.println("\t  _   _           _          _                             ");
         System.out.println("\t | | | |         | |        | |                            ");

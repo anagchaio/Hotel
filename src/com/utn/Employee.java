@@ -1,5 +1,6 @@
 package com.utn;
 
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Employee extends Person {
@@ -43,13 +44,39 @@ public abstract class Employee extends Person {
         this.password = password;
     }
 
-    /*protected boolean checkPassword(String userName,String password){
-        boolean flag = false;
-        if(this.userName == userName && this.password == password){
-            flag = true;
+    public void showRooms(List<Room> rooms){
+        for(Room room:rooms){
+            System.out.println(room.toString());
         }
-        return flag;
-    }*/
+    }
+
+    public void showEmployees(List<Employee> employees){
+        for(Employee employee:employees){
+            System.out.println(employee.toString());
+        }
+    }
+
+    public void showProducts(List<Product> products){
+        for(Product product:products){
+            System.out.println(product.toString());
+        }
+    }
+
+    public void showGuests(List<Guest> guests, boolean isActive){
+        if(isActive == true){
+            for(Guest guest:guests){
+                if(guest.isActive() == true){
+                    System.out.println(guest.toString());
+                }
+            }
+        } else {
+            for(Guest guest:guests){
+                if(guest.isActive() == false){
+                    System.out.println(guest.toString());
+                }
+            }
+        }
+    }
 
     @Override
     public String toString() {

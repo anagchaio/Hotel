@@ -17,9 +17,7 @@ public class Administrator extends Employee {
 
     }
 
-    //create a system user / Employee, dependending on the UserType
-    //en el main luego de crearlo, lo agrega a la lista de empleados
-    //Este metodo es llamado por un metodo de menu, en el cual se piden los datos y se hacen las validaciones
+
     public Employee createEmployee(UserType type, String name, String surname, String dni, Integer age, String userName, String password){
         Employee newEmployee;
         if(type == UserType.ADMINISTRATOR){
@@ -30,7 +28,39 @@ public class Administrator extends Employee {
         return newEmployee;
     }
 
-    //Este metodo se llama desde el menu, el cual tiene un metodo que pide los datos
+    public boolean verifyEmployeeDni(String dni, List<Employee> employees){
+        for(Employee employee: employees){
+            if(employee.getDni().equals(dni)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean verifySystemUsername(String username, List<Employee> employees){
+        for(Employee employee: employees){
+            if(employee.getUserName().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Employee findEmployee(String dni, List<Employee> employees) {
+        for(Employee employee: employees){
+            if(employee.getDni().equals(dni)){
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    public void showInvoices(List<Invoice> invoices){
+        for(Invoice invoice:invoices){
+            System.out.println(invoice.toString());
+        }
+    }
+
     public void changeRoomsPrice(List<Room> rooms, RoomType type, Double newPrice) {
         for (Room room : rooms){
             if(room.getType() == type){
