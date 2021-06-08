@@ -1,5 +1,6 @@
 package com.utn;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -47,8 +48,51 @@ public class Menu {
         }
         return null;
     }
+
+
+    /********************************************************************************
+     Pide por pantalla que se ingrese un valor entero correspondiente a la opcion deseada
+     *********************************************************************************/
+    public int enterOption() {
+        try{
+            System.out.print("\n\t Ingrese opcion: ");
+            return new Scanner(System.in).nextInt();
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.");
+            return this.enterOption();
+        }
+    }
+    /********************************************************************************
+     No esta funcionando :(
+     *********************************************************************************/
+    public static void ClearConsole(){
+        try{
+            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
+
+            if(operatingSystem.contains("Windows")){
+                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
+            } else {
+                ProcessBuilder pb = new ProcessBuilder("clear");
+                Process startProcess = pb.inheritIO().start();
+
+                startProcess.waitFor();
+            }
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+
+    public void cleanScreen() {
+        for(int i = 0; i< 14; ++i)
+            System.out.println("");
+
+        System.out.flush();
+    }
+
     /****************************************************************************
-                    Funcionalidades del usuario Administrador
+     Funcionalidades del usuario Administrador
      ****************************************************************************/
     public void registerNewEmployee(Administrator user, List<Employee> employees, UserType userType){
         boolean flag;
@@ -95,55 +139,18 @@ public class Menu {
         }
     }
 
+    /**********************************************************************
+     Funcionalidades de Menu - login Recepcionist
+     ***********************************************************************/
 
-    /********************************************************************************
-     Pide por pantalla que se ingrese un valor entero correspondiente a la opcion deseada
-     *********************************************************************************/
-    public int enterOption() {
-        try{
-            System.out.print("\n\t Ingrese opcion: ");
-            return new Scanner(System.in).nextInt();
-        } catch (InputMismatchException e){
-            System.out.print("\n\t Error - Debe ingresar un numero.");
-            return this.enterOption();
-        }
-    }
-    /********************************************************************************
-     No esta funcionando :(
-     *********************************************************************************/
-    public static void ClearConsole(){
-        try{
-            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
 
-            if(operatingSystem.contains("Windows")){
-                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
-                Process startProcess = pb.inheritIO().start();
-                startProcess.waitFor();
-            } else {
-                ProcessBuilder pb = new ProcessBuilder("clear");
-                Process startProcess = pb.inheritIO().start();
-
-                startProcess.waitFor();
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
-
-    public void cleanScreen() {
-        for(int i = 0; i< 14; ++i)
-            System.out.println("");
-
-        System.out.flush();
-    }
-
-    public void checkIn(Recepcionist recepcionist, List<Reservation> reservations, List<Room> rooms){
+    public void checkIn(Recepcionist user, List<Reservation> reservations, List<Room> rooms){
         int reservationId;
         Room room;
         try{
             System.out.print("\n\t Ingrese el numero de Reserva: ");
             reservationId = new Scanner(System.in).nextInt();
-            room = recepcionist.checkIn(reservationId,reservations,rooms);
+            room = user.checkIn(reservationId,reservations,rooms);
             if(room != null){
                 System.out.println("El check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
             } else {
@@ -154,13 +161,13 @@ public class Menu {
         }
     }
 
-    public void checkOut(Recepcionist recepcionist, List<Room> rooms, List<Invoice> invoices){
-        int roomNumber = 0;
+    public void checkOut(Recepcionist user, List<Room> rooms, List<Invoice> invoices){
+        int roomNumber;
         Invoice invoice;
         try{
             System.out.print("\n\t Ingrese el numero de habitacion: ");
             roomNumber = new Scanner(System.in).nextInt();
-            invoice = recepcionist.checkOut(roomNumber,rooms);
+            invoice = user.checkOut(roomNumber,rooms);
 
             if(invoice != null){
                 System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
@@ -174,7 +181,56 @@ public class Menu {
         }
     }
 
+    public Guest registerGuest(Recepcionist user, List<Guest> guests){
+        boolean flag;
+        String dni;
+        System.out.println("Ingresar datos del huesped");
+        do{
+            System.out.print("\t Ingrese el dni: ");
+            dni = new Scanner(System.in).nextLine();
+            flag = user.verifyGuestDni(guests,dni);
+            if(flag){
+                System.out.println("El DNI ingresado ya pertenece a un empleado. Vuelva a Intentar...");
+            }
+        } while (flag);
+        System.out.print("\t Ingrese el nombre: ");
+        String name = new Scanner(System.in).nextLine();
+        System.out.print("\t Ingrese el apellido: ");
+        String surname = new Scanner(System.in).nextLine();
+        System.out.print("\t Ingrese la edad: ");
+        int age = new Scanner(System.in).nextInt();
 
+        return new Guest(name,surname,dni,age);
+    }
+
+
+
+    public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations){
+        int roomNumber;
+        Reservation reservation;
+        if(user.checkVacancy(rooms)){
+            user.showAvailableRooms(rooms);
+            try{
+                System.out.print("\n\t Ingrese el numero de habitacion: ");
+                roomNumber = new Scanner(System.in).nextInt();
+                Room room = user.findRoom(roomNumber,rooms);
+                if(room != null){
+                    Guest guest = this.registerGuest(user,guests);
+                    List<Guest> roomGuests = new ArrayList<>();
+                    roomGuests.add(guest);
+                    reservation = user.roomReservation(rooms,roomNumber,roomGuests);
+                    room.setRoomState(RoomState.RESERVED);
+                    System.out.println("La reserva se realizo con exito. La habitacion nro. " + roomNumber + " ha sido reservada." );
+                } else {
+                    System.out.println("El numero de habitacion no existe o no esta disponible");
+                }
+            } catch (InputMismatchException e){
+                System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+            }
+        } else {
+            System.out.println("No hay habitaciones disponibles");
+        }
+    }
 
 
 

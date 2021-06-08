@@ -14,26 +14,42 @@ public class Recepcionist extends Employee {
         super(name, surname, dni, age, userName, password);
     }
 
-    public Room checkVacancy(List<Room> rooms){
+    public boolean checkVacancy(List<Room> rooms){
         for(Room room:rooms){
             if(room.getRoomState().equals(RoomState.AVAILABLE)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void showAvailableRooms(List<Room> rooms){
+        for(Room room:rooms){
+            if(room.getRoomState().equals(RoomState.AVAILABLE)){
+                System.out.println(room.toString());
+            }
+        }
+    }
+
+    public Room findRoom(int roomNumber, List<Room> rooms){
+        for(Room room:rooms){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.AVAILABLE)){
                 return room;
             }
         }
         return null;
     }
 
-/*    public Reservation roomReservation(List<Room> rooms, Room room2, List<Guest> guests) {
+    public Reservation roomReservation(List<Room> rooms, int roomNumber, List<Guest> guests) {
         Reservation reservation;
         for(Room room:rooms){
-            if(room.equals(room2){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.AVAILABLE)){
                 room.setRoomState(RoomState.RESERVED);
+                //reservation = new Reservation() //faltan las fechas
             }
         }
-        reservation = new Reservation()
-
         return null;
-    }*/
+    }
 
     public void roomCancellation(List<Room> rooms, List<Reservation> reservations) {
 
@@ -80,6 +96,15 @@ public class Recepcionist extends Employee {
             totalPrice += consumption.getTotalPrice();
         }
         return  totalPrice;
+    }
+
+    public boolean verifyGuestDni(List<Guest> guests, String dni){
+        for(Guest guest:guests){
+            if(guest.getDni().equals(dni)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void loadConsumptions(int roomNumber, List<Room> rooms){

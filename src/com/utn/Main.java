@@ -174,7 +174,7 @@ public class Main {
                             switch(option) {
                                 case 1:
                                     menu.cleanScreen();
-                                    //menu.registerNewReservation((Recepcionist) user,guests);
+                                    menu.registerNewReservation((Recepcionist) user,rooms,guests,reservations);
                                     menu.pause();
                                     break;
                                 case 2:
