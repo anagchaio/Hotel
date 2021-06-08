@@ -3,6 +3,8 @@ package com.utn;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.utn.RoomType.SIMPLE;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -22,8 +24,6 @@ public class Main {
 
         if(invoices.size()>1)
             Invoice.setCounter(invoices.size());
-
-
 
         /*int option;
 

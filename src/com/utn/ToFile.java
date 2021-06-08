@@ -1,2 +1,11 @@
-package com.utn;public interface ToFile {
+package com.utn;
+
+import java.util.*;
+
+public interface ToFile <T>{
+
+    public List<T> load();
+    public void save();
+
+
 }
