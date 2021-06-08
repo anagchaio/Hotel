@@ -20,6 +20,9 @@ public class Room implements Serializable {
         this.roomNumber = roomNumber;
     }
 
+    public Room(Room room) {
+    }
+
     public int getRoomNumber() {
         return roomNumber;
     }
