@@ -2,11 +2,9 @@ package com.utn;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class Recepcionist extends Employee {
-    private String schedule;
 
     public Recepcionist(){
         super();
@@ -16,12 +14,29 @@ public class Recepcionist extends Employee {
         super(name, surname, dni, age, userName, password);
     }
 
-    public String getSchedule() {
-        return schedule;
+    public Room checkVacancy(List<Room> rooms){
+        for(Room room:rooms){
+            if(room.getRoomState().equals(RoomState.AVAILABLE)){
+                return room;
+            }
+        }
+        return null;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+/*    public Reservation roomReservation(List<Room> rooms, Room room2, List<Guest> guests) {
+        Reservation reservation;
+        for(Room room:rooms){
+            if(room.equals(room2){
+                room.setRoomState(RoomState.RESERVED);
+            }
+        }
+        reservation = new Reservation()
+
+        return null;
+    }*/
+
+    public void roomCancellation(List<Room> rooms, List<Reservation> reservations) {
+
     }
 
     public Room checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
@@ -44,11 +59,11 @@ public class Recepcionist extends Employee {
         Invoice invoice;
         try{
             for(Room room:rooms){
-                if(room.getRoomNumber() == roomNumber){
+                if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.OCCUPIED)){
                     invoice = new Invoice(room.getRoomGuests().get(0), Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
-                    room.setRoomState(RoomState.AVAILABLE);
                     room.getRoomGuests().removeAll(room.getRoomGuests());
                     room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
+                    room.setRoomState(RoomState.AVAILABLE);
                     return invoice;
                 }
             }
@@ -67,19 +82,13 @@ public class Recepcionist extends Employee {
         return  totalPrice;
     }
 
-    public void loadConsumptions(Room room){
+    public void loadConsumptions(int roomNumber, List<Room> rooms){
 
     }
 
-    public void cancelConsumptions(Room room){
+    public void cancelConsumptions(int roomNumber, List<Room> rooms){
 
     }
 
-    public void roomReservation(List<Room> rooms, List<Reservation> reservations) {
 
-    }
-
-    public void roomCancellation(List<Room> rooms, List<Reservation> reservations) {
-
-    }
 }

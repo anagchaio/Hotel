@@ -184,7 +184,7 @@ public class Main {
                                     break;
                                 case 3:
                                     menu.cleanScreen();
-                                    //menu.checkOut((Recepcionist) user,reservations,rooms);
+                                    menu.checkOut((Recepcionist) user,rooms,invoices);
                                     menu.pause();
                                     break;
                                 case 4:

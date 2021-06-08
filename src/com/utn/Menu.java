@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class Menu {
 
-    Scanner scanner = new Scanner(System.in);
     public Menu() {
     }
 
@@ -155,17 +154,20 @@ public class Menu {
         }
     }
 
-    public void checkOut(Recepcionist recepcionist, List<Room> rooms){
+    public void checkOut(Recepcionist recepcionist, List<Room> rooms, List<Invoice> invoices){
         int roomNumber = 0;
-        boolean flag;
+        Invoice invoice;
         try{
             System.out.print("\n\t Ingrese el numero de habitacion: ");
             roomNumber = new Scanner(System.in).nextInt();
-            flag = recepcionist.checkOut(roomNumber,rooms);
-            if(flag){
+            invoice = recepcionist.checkOut(roomNumber,rooms);
+
+            if(invoice != null){
                 System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
+                System.out.println("Esta es la factura: \n\t" + invoice.toString());
+                invoices.add(invoice);
             } else {
-                System.out.println("El numero de reserva no se encuentra en el sistema.");
+                System.out.println("El numero de habitacion no esta ocupada o no se encuentra en el sistema.");
             }
         } catch (InputMismatchException e){
             System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
