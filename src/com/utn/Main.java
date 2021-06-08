@@ -42,7 +42,7 @@ public class Main {
             System.out.println("\tBienvenidos");
             System.out.println("\n\t 1. Ingresar");
             System.out.println("\n\t 0. Salir");
-            option = menu.enterOption();
+            option = menu.enterNumber("la opcion");
 
             switch(option)
             {
@@ -69,7 +69,7 @@ public class Main {
                             System.out.println("\n\t 2. Productos");
                             System.out.println("\n\t 3. Precios"); //Change Rooms prices & see invoices - total incomes
                             System.out.println("\n\t 4. Volver al menu anterior");
-                            option = menu.enterOption();
+                            option = menu.enterNumber("la opcion");
                             switch(option) {
                                 case 1:
                                     do {
@@ -80,7 +80,7 @@ public class Main {
                                         System.out.println("\n\t 3. Buscar Empleado");
                                         System.out.println("\n\t 4. Ver Empleados");
                                         System.out.println("\n\t 5. Volver");
-                                        option = menu.enterOption();
+                                        option = menu.enterNumber("la opcion");
                                         switch (option){
                                             case 1:
                                                 menu.cleanScreen();
@@ -112,10 +112,11 @@ public class Main {
                                         System.out.println("\n\t 1. Agregar Producto");
                                         System.out.println("\n\t 2. Listado de Productos");
                                         System.out.println("\n\t 3. Volver al menu anterior");
-                                        option = menu.enterOption();
+                                        option = menu.enterNumber("la opcion");
                                         switch(option) {
                                             case 1:
                                                 menu.cleanScreen();
+                                                System.out.println("Proximamente");
                                                 //menu.AddProduct();
                                                 menu.pause();
                                                 break;
@@ -135,11 +136,35 @@ public class Main {
                                         System.out.println("\n\t 2. Listado de Facturas");
                                         System.out.println("\n\t 3. Ingresos totales");
                                         System.out.println("\n\t 4. Volver al menu anterior");
-                                        option = menu.enterOption();
+                                        option = menu.enterNumber("la opcion");
                                         switch(option) {
                                             case 1:
-                                                menu.cleanScreen();
-                                                //menu.changeRoomPrice();
+                                                do {
+                                                    menu.cleanScreen();
+                                                    System.out.println("Cambio de precio");
+                                                    System.out.println("\n\t 1. SIMPLE");
+                                                    System.out.println("\n\t 2. DOUBLE");
+                                                    System.out.println("\n\t 3. SUITE");
+                                                    System.out.println("\n\t 4. Volver al menu anterior");
+                                                    option = menu.enterNumber("la opcion");
+                                                    switch(option) {
+                                                        case 1:
+                                                            menu.cleanScreen();
+                                                            menu.changeRoomPrice((Administrator) user,rooms,RoomType.SIMPLE);
+                                                            menu.pause();
+                                                            break;
+                                                        case 2:
+                                                            menu.cleanScreen();
+                                                            menu.changeRoomPrice((Administrator) user,rooms,RoomType.DOUBLE);
+                                                            menu.pause();
+                                                            break;
+                                                        case 3:
+                                                            menu.cleanScreen();
+                                                            menu.changeRoomPrice((Administrator) user,rooms,RoomType.SUITE);
+                                                            menu.pause();
+                                                            break;
+                                                    }
+                                                } while(option != 4);
                                                 menu.pause();
                                                 break;
                                             case 2:
@@ -149,7 +174,7 @@ public class Main {
                                                 break;
                                             case 3:
                                                 menu.cleanScreen();
-                                                //menu.showTotalIncomes();
+                                                menu.showTotalIncomes((Administrator) user,invoices);
                                                 menu.pause();
                                                 break;
                                         }
@@ -170,7 +195,7 @@ public class Main {
                             System.out.println("\n\t 4. Habitaciones");
                             System.out.println("\n\t 5. Servicio de Habitacion");
                             System.out.println("\n\t 6. Volver al menu anterior");
-                            option = menu.enterOption();
+                            option = menu.enterNumber("la opcion");
                             switch(option) {
                                 case 1:
                                     menu.cleanScreen();
