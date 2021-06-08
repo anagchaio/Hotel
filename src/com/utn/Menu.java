@@ -1,11 +1,11 @@
 package com.utn;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
 
-    Scanner scanner = new Scanner(System.in);
     public Menu() {
     }
 
@@ -29,7 +29,7 @@ public class Menu {
         System.out.println("\n\t--- Opcion incorrecta ---\n\n");
     }
     public void pause(){
-        System.out.println("Press Any Key To Continue...");
+        System.out.println("Presione cualquier tecla para volver...");
         new Scanner(System.in).nextLine();
     }
 
@@ -96,17 +96,17 @@ public class Menu {
     }
 
 
-
-
-
-
-
     /********************************************************************************
-     Pide por pantalla que se ingrese un valor correspondiente a la opcion deseada
+     Pide por pantalla que se ingrese un valor entero correspondiente a la opcion deseada
      *********************************************************************************/
     public int enterOption() {
-        System.out.print("\n\t Ingrese opcion: ");
-        return scanner.nextInt();
+        try{
+            System.out.print("\n\t Ingrese opcion: ");
+            return new Scanner(System.in).nextInt();
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.");
+            return this.enterOption();
+        }
     }
     /********************************************************************************
      No esta funcionando :(
@@ -136,6 +136,48 @@ public class Menu {
 
         System.out.flush();
     }
+
+    public void checkIn(Recepcionist recepcionist, List<Reservation> reservations, List<Room> rooms){
+        int reservationId;
+        Room room;
+        try{
+            System.out.print("\n\t Ingrese el numero de Reserva: ");
+            reservationId = new Scanner(System.in).nextInt();
+            room = recepcionist.checkIn(reservationId,reservations,rooms);
+            if(room != null){
+                System.out.println("El check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
+            } else {
+                System.out.println("El numero de reserva no se encuentra en el sistema.");
+            }
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+        }
+    }
+
+    public void checkOut(Recepcionist recepcionist, List<Room> rooms, List<Invoice> invoices){
+        int roomNumber = 0;
+        Invoice invoice;
+        try{
+            System.out.print("\n\t Ingrese el numero de habitacion: ");
+            roomNumber = new Scanner(System.in).nextInt();
+            invoice = recepcionist.checkOut(roomNumber,rooms);
+
+            if(invoice != null){
+                System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
+                System.out.println("Esta es la factura: \n\t" + invoice.toString());
+                invoices.add(invoice);
+            } else {
+                System.out.println("El numero de habitacion no esta ocupada o no se encuentra en el sistema.");
+            }
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+        }
+    }
+
+
+
+
+
 
     /**********************************************************************
      Funcion que muestra mensaje de despedida

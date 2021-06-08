@@ -3,7 +3,8 @@ package com.utn;
 public enum RoomState {
     AVAILABLE ("AVAILABLE"),
     OCCUPIED ("OCCUPIED"),
-    RESERVED ("RESERVED");
+    RESERVED ("RESERVED"),
+    NOT_AVAILABLE("NOT AVAILABLE");
 
     private String state;
 

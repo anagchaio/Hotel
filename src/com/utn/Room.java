@@ -63,14 +63,6 @@ public class Room {
         this.roomConsumptions = roomConsumptions;
     }
 
-    public Double getRoomTotalPrice(){
-        Double totalPrice = this.price;
-        for(Consumption consumption:this.roomConsumptions){
-            totalPrice += consumption.getTotalPrice();
-        }
-        return  totalPrice;
-    }
-
 
     @Override
     public String toString() {

@@ -1,9 +1,10 @@
 package com.utn;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Recepcionist extends Employee {
-    private String schedule;
 
     public Recepcionist(){
         super();
@@ -13,15 +14,32 @@ public class Recepcionist extends Employee {
         super(name, surname, dni, age, userName, password);
     }
 
-    public String getSchedule() {
-        return schedule;
+    public Room checkVacancy(List<Room> rooms){
+        for(Room room:rooms){
+            if(room.getRoomState().equals(RoomState.AVAILABLE)){
+                return room;
+            }
+        }
+        return null;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+/*    public Reservation roomReservation(List<Room> rooms, Room room2, List<Guest> guests) {
+        Reservation reservation;
+        for(Room room:rooms){
+            if(room.equals(room2){
+                room.setRoomState(RoomState.RESERVED);
+            }
+        }
+        reservation = new Reservation()
+
+        return null;
+    }*/
+
+    public void roomCancellation(List<Room> rooms, List<Reservation> reservations) {
+
     }
 
-    public boolean checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
+    public Room checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
         for(Reservation reservation:reservations){
             if(reservation.getIdReservation() == reservationId){
                 Room reservedRoom = reservation.getRoom();
@@ -29,44 +47,48 @@ public class Recepcionist extends Employee {
                 for(Room room:rooms){
                     if(reservedRoom.equals(room)){
                         room.setRoomState(RoomState.OCCUPIED);
-                        return true;
+                        return room;
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean checkOut(int roomNumber, List<Room> rooms){
+    public Invoice checkOut(int roomNumber, List<Room> rooms){
+        Invoice invoice;
         try{
             for(Room room:rooms){
-                if(room.getRoomNumber() == roomNumber){
-                    room.setRoomState(RoomState.AVAILABLE);
+                if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.OCCUPIED)){
+                    invoice = new Invoice(room.getRoomGuests().get(0), Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
                     room.getRoomGuests().removeAll(room.getRoomGuests());
                     room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
-                    return true;
+                    room.setRoomState(RoomState.AVAILABLE);
+                    return invoice;
                 }
             }
         }
         catch (NullPointerException e) {
             System.out.println("Exception thrown : " + e);
         }
-        return false;
+        return null;
     }
 
-    public void loadConsumptions(){
+    public Double getRoomTotalPrice(Room room){
+        Double totalPrice = room.getPrice();
+        for(Consumption consumption: room.getRoomConsumptions()){
+            totalPrice += consumption.getTotalPrice();
+        }
+        return  totalPrice;
+    }
+
+    public void loadConsumptions(int roomNumber, List<Room> rooms){
 
     }
 
-    public void cancelConsumptions(){
+    public void cancelConsumptions(int roomNumber, List<Room> rooms){
 
     }
 
-    public void roomReservation() {
 
-    }
-
-    public void roomCancellation() {
-
-    }
 }

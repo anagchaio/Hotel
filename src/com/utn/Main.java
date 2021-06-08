@@ -30,8 +30,9 @@ public class Main {
         option = menu.enterOption();
         menu.cleanScreen();*/
         Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
-
+        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
         employees.add(admin);
+        employees.add(anagchaio);
 
         /* Menu Principal*/
         int option;
@@ -178,12 +179,12 @@ public class Main {
                                     break;
                                 case 2:
                                     menu.cleanScreen();
-                                    //menu.checkIn((Recepcionist) user,reservations,rooms);
+                                    menu.checkIn((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
                                 case 3:
                                     menu.cleanScreen();
-                                    //menu.checkOut((Recepcionist) user,reservations,rooms);
+                                    menu.checkOut((Recepcionist) user,rooms,invoices);
                                     menu.pause();
                                     break;
                                 case 4:
