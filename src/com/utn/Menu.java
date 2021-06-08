@@ -53,13 +53,13 @@ public class Menu {
     /********************************************************************************
      Pide por pantalla que se ingrese un valor entero correspondiente a la opcion deseada
      *********************************************************************************/
-    public int enterOption() {
+    public int enterNumber(String phase) {
         try{
-            System.out.print("\n\t Ingrese opcion: ");
+            System.out.print("\n\t Ingrese " + phase + ": ");
             return new Scanner(System.in).nextInt();
         } catch (InputMismatchException e){
             System.out.print("\n\t Error - Debe ingresar un numero.");
-            return this.enterOption();
+            return this.enterNumber(phase);
         }
     }
     /********************************************************************************
@@ -109,8 +109,7 @@ public class Menu {
         String name = new Scanner(System.in).nextLine();
         System.out.print("\t Ingrese el apellido: ");
         String surname = new Scanner(System.in).nextLine();
-        System.out.print("\t Ingrese la edad: ");
-        int age = new Scanner(System.in).nextInt();
+        int age = this.enterNumber("la edad");
         String username;
         do{
             System.out.print("\t Ingrese el username: ");
@@ -139,6 +138,21 @@ public class Menu {
         }
     }
 
+    public void changeRoomPrice(Administrator user, List<Room> rooms, RoomType type){
+        try{
+            System.out.print("\n\t Ingrese el valor del nuevo precio: $");
+            Double newPrice = new Scanner(System.in).nextDouble();
+            user.changeRoomsPrice(rooms,type,newPrice);
+            System.out.println("El precio de la habitacion "+type.getType()+" fue cambiado a $"+newPrice);
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.");
+        }
+    }
+
+    public void showTotalIncomes(Administrator user, List<Invoice> invoices){
+        System.out.println("Los ingresos totales son: $" + user.calculateTotalIncomes(invoices));
+    }
+
     /**********************************************************************
      Funcionalidades de Menu - login Recepcionist
      ***********************************************************************/
@@ -147,63 +161,49 @@ public class Menu {
     public void checkIn(Recepcionist user, List<Reservation> reservations, List<Room> rooms){
         int reservationId;
         Room room;
-        try{
-            System.out.print("\n\t Ingrese el numero de Reserva: ");
-            reservationId = new Scanner(System.in).nextInt();
-            room = user.checkIn(reservationId,reservations,rooms);
-            if(room != null){
-                System.out.println("El check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
-            } else {
-                System.out.println("El numero de reserva no se encuentra en el sistema.");
-            }
-        } catch (InputMismatchException e){
-            System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+        reservationId = this.enterNumber("el numero de Reserva");
+        room = user.checkIn(reservationId,reservations,rooms);
+        if(room != null){
+            System.out.println("El check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
+        } else {
+            System.out.println("El numero de reserva no se encuentra en el sistema.");
         }
     }
 
     public void checkOut(Recepcionist user, List<Room> rooms, List<Invoice> invoices){
         int roomNumber;
         Invoice invoice;
-        try{
-            System.out.print("\n\t Ingrese el numero de habitacion: ");
-            roomNumber = new Scanner(System.in).nextInt();
-            invoice = user.checkOut(roomNumber,rooms);
+        roomNumber = this.enterNumber("el numero de habitacion");
+        invoice = user.checkOut(roomNumber,rooms);
 
-            if(invoice != null){
-                System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
-                System.out.println("Esta es la factura: \n\t" + invoice.toString());
-                invoices.add(invoice);
-            } else {
-                System.out.println("El numero de habitacion no esta ocupada o no se encuentra en el sistema.");
-            }
-        } catch (InputMismatchException e){
-            System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+        if(invoice != null){
+            System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
+            System.out.println("Esta es la factura: \n\t" + invoice.toString());
+            invoices.add(invoice);
+        } else {
+            System.out.println("El numero de habitacion no esta ocupada o no se encuentra en el sistema.");
         }
     }
 
     public Guest registerGuest(Recepcionist user, List<Guest> guests){
-        boolean flag;
         String dni;
+        Guest guest;
         System.out.println("Ingresar datos del huesped");
-        do{
-            System.out.print("\t Ingrese el dni: ");
-            dni = new Scanner(System.in).nextLine();
-            flag = user.verifyGuestDni(guests,dni);
-            if(flag){
-                System.out.println("El DNI ingresado ya pertenece a un empleado. Vuelva a Intentar...");
-            }
-        } while (flag);
-        System.out.print("\t Ingrese el nombre: ");
-        String name = new Scanner(System.in).nextLine();
-        System.out.print("\t Ingrese el apellido: ");
-        String surname = new Scanner(System.in).nextLine();
-        System.out.print("\t Ingrese la edad: ");
-        int age = new Scanner(System.in).nextInt();
-
-        return new Guest(name,surname,dni,age);
+        System.out.print("\t Ingrese el dni: ");
+        dni = new Scanner(System.in).nextLine();
+        guest = user.findGuestByDni(guests,dni);
+        if(guest != null){
+            System.out.println("El DNI ingresado ya pertenece a un huesped.");
+            return guest;
+        } else {
+            System.out.print("\t Ingrese el nombre: ");
+            String name = new Scanner(System.in).nextLine();
+            System.out.print("\t Ingrese el apellido: ");
+            String surname = new Scanner(System.in).nextLine();
+            int age = this.enterNumber("la edad");
+            return new Guest(name,surname,dni,age);
+        }
     }
-
-
 
     public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations){
         int roomNumber;
@@ -220,6 +220,7 @@ public class Menu {
                     roomGuests.add(guest);
                     reservation = user.roomReservation(rooms,roomNumber,roomGuests);
                     room.setRoomState(RoomState.RESERVED);
+                    reservations.add(reservation);
                     System.out.println("La reserva se realizo con exito. La habitacion nro. " + roomNumber + " ha sido reservada." );
                 } else {
                     System.out.println("El numero de habitacion no existe o no esta disponible");
@@ -231,8 +232,6 @@ public class Menu {
             System.out.println("No hay habitaciones disponibles");
         }
     }
-
-
 
 
     /**********************************************************************
