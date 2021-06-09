@@ -1,5 +1,7 @@
 package com.utn;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -62,6 +64,7 @@ public class Menu {
             return this.enterNumber(phase);
         }
     }
+
     /********************************************************************************
      No esta funcionando :(
      *********************************************************************************/
@@ -143,7 +146,7 @@ public class Menu {
             System.out.print("\n\t Ingrese el valor del nuevo precio: $");
             Double newPrice = new Scanner(System.in).nextDouble();
             user.changeRoomsPrice(rooms,type,newPrice);
-            System.out.println("El precio de la habitacion "+type.getType()+" fue cambiado a $"+newPrice);
+            System.out.println("\nEl precio de la habitacion "+type.getType()+" fue cambiado a $"+newPrice);
         } catch (InputMismatchException e){
             System.out.print("\n\t Error - Debe ingresar un numero.");
         }
@@ -164,9 +167,9 @@ public class Menu {
         reservationId = this.enterNumber("el numero de Reserva");
         room = user.checkIn(reservationId,reservations,rooms);
         if(room != null){
-            System.out.println("El check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
+            System.out.println("\nEl check-in fue exitoso. Pueden ocupar la habitacion Nro. "+room.getRoomNumber());
         } else {
-            System.out.println("El numero de reserva no se encuentra en el sistema.");
+            System.out.println("\nEl numero de reserva no se encuentra en el sistema.");
         }
     }
 
@@ -188,17 +191,17 @@ public class Menu {
     public Guest registerGuest(Recepcionist user, List<Guest> guests){
         String dni;
         Guest guest;
-        System.out.println("Ingresar datos del huesped");
-        System.out.print("\t Ingrese el dni: ");
+        System.out.println("\nIngresar datos del huesped");
+        System.out.print("\n\t Ingrese el dni: ");
         dni = new Scanner(System.in).nextLine();
         guest = user.findGuestByDni(guests,dni);
         if(guest != null){
-            System.out.println("El DNI ingresado ya pertenece a un huesped.");
+            System.out.println("\nEl DNI ingresado ya pertenece a un huesped.");
             return guest;
         } else {
-            System.out.print("\t Ingrese el nombre: ");
+            System.out.print("\n\t Ingrese el nombre: ");
             String name = new Scanner(System.in).nextLine();
-            System.out.print("\t Ingrese el apellido: ");
+            System.out.print("\n\t Ingrese el apellido: ");
             String surname = new Scanner(System.in).nextLine();
             int age = this.enterNumber("la edad");
             return new Guest(name,surname,dni,age);
@@ -211,8 +214,7 @@ public class Menu {
         if(user.checkVacancy(rooms)){
             user.showAvailableRooms(rooms);
             try{
-                System.out.print("\n\t Ingrese el numero de habitacion: ");
-                roomNumber = new Scanner(System.in).nextInt();
+                roomNumber = this.enterNumber("el numero de habitacion");
                 Room room = user.findRoom(roomNumber,rooms);
                 if(room != null){
                     Guest guest = this.registerGuest(user,guests);
@@ -221,20 +223,55 @@ public class Menu {
                     reservation = user.roomReservation(rooms,roomNumber,roomGuests);
                     room.setRoomState(RoomState.RESERVED);
                     reservations.add(reservation);
-                    System.out.println("La reserva se realizo con exito. La habitacion nro. " + roomNumber + " ha sido reservada." );
+                    System.out.println("\nLa reserva se realizo con exito. La habitacion nro. " + roomNumber + " ha sido reservada." );
                 } else {
-                    System.out.println("El numero de habitacion no existe o no esta disponible");
+                    System.out.println("\nEl numero de habitacion no existe o no esta disponible");
                 }
             } catch (InputMismatchException e){
                 System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
             }
         } else {
-            System.out.println("No hay habitaciones disponibles");
+            System.out.println("\nNo hay habitaciones disponibles");
         }
     }
 
-    public void roomService(Recepcionist user, List<Product> products, List<Room> rooms){
+    public void cancelReservation(Recepcionist user, List<Reservation> reservations, List<Room> rooms){
+        int reservationId;
+        reservationId = this.enterNumber("el numero de reserva");
+        if(user.roomCancellation(rooms,reservations,reservationId)){
+            System.out.println("\nLa reserva nro. " + reservationId + "ha sido cancelada.");
+        } else {
+            System.out.println("\nEl nro no corresponde a una reserva vigente.");
+        }
+    }
 
+    public void roomService(Recepcionist user, List<Product> products, List<Room> rooms) {
+        int roomNumber;
+        roomNumber = this.enterNumber("el numero de habitacion");
+        for(Room room:rooms){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.OCCUPIED)){
+                List<Product> selectedProducts = new ArrayList<>();
+                byte option = 's';
+                do {
+                    System.out.println("\n\tProductos:");
+                    user.showProducts(products);
+                    int productId;
+                    productId = this.enterNumber("el id del producto que desea cargar a la habitacion");
+                    Product product = user.findProductById(productId,products);
+                    if(product != null){
+                        selectedProducts.add(product);
+                        System.out.println("\nEl producto " + product.toString() + " ha sido agregado");
+                    } else {
+                        System.out.println("\nEl id seleccionado no corresponde a un producto.");
+                    }
+                    System.out.println("\nPresione 's' si desea seguir agregando productos.");
+                    option = new Scanner(System.in).nextByte();
+                }while(option == 's' || option == 'S');
+                room.getRoomConsumptions().add(new Consumption(selectedProducts));
+            } else {
+                System.out.println("\nEl numero de habitacion es incorrecto.");
+            }
+        }
     }
 
 

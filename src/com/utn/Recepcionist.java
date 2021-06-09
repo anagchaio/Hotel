@@ -2,6 +2,7 @@ package com.utn;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recepcionist extends Employee {
@@ -46,13 +47,25 @@ public class Recepcionist extends Employee {
             if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.AVAILABLE)){
                 room.setRoomState(RoomState.RESERVED);
                 //reservation = new Reservation() //faltan las fechas
+                //guests.add(reservation.getGuests());
             }
         }
         return null;
     }
 
-    public void roomCancellation(List<Room> rooms, List<Reservation> reservations) {
-
+    public boolean roomCancellation(List<Room> rooms, List<Reservation> reservations, int reservationId) {
+        for (Reservation reservation: reservations){
+            if(reservation.getIdReservation() == reservationId){
+                reservation.setActive(false);
+                for(Room room: rooms){
+                    if(room.equals( reservation.getRoom())){
+                        room.setRoomState(RoomState.AVAILABLE);
+                    }
+                }
+                return true;
+            }
+        }
+        return  false;
     }
 
     public Room checkIn(int reservationId, List<Reservation> reservations, List<Room> rooms){
@@ -107,8 +120,13 @@ public class Recepcionist extends Employee {
         return null;
     }
 
-    public void loadConsumptions(int roomNumber, List<Room> rooms){
-
+    public Product findProductById(int productId, List<Product> products) {
+        for (Product product:products){
+            if(product.getIdProduct() == productId){
+                return product;
+            }
+        }
+        return null;
     }
 
 
