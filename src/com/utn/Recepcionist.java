@@ -111,9 +111,7 @@ public class Recepcionist extends Employee {
 
     }
 
-    public void cancelConsumptions(int roomNumber, List<Room> rooms){
 
-    }
 
 
 }

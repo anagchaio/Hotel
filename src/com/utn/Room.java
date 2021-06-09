@@ -63,7 +63,6 @@ public class Room {
         this.roomConsumptions = roomConsumptions;
     }
 
-
     @Override
     public String toString() {
         return "Room{" +
