@@ -34,6 +34,7 @@ public class Main {
         employees.add(admin);
         employees.add(anagchaio);
 
+      
         /* Menu Principal*/
         int option;
         do
