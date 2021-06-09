@@ -3,43 +3,46 @@ package com.utn;
 import java.io.*;
 import java.util.*;
 
-public class RoomFile implements ToFile{
+public class RoomFile{
 
-    private List<Room> rooms = new ArrayList();
     private String file;
 
-    public RoomFile(String file, ArrayList <Room> rooms){
+    public RoomFile(String file){
         this.file = file;
-        this.rooms = rooms;
     }
 
-    @Override
-    public List load() {
-        try{
-            ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(file));
-            Room aux;
-            while ((aux = (Room)objIn.readObject())!=null){
-                System.out.println(aux);
-                rooms.add(aux);
+    public List<Room> load() {
+        List <Room> rooms= new ArrayList<>();
+        try {
+            boolean cont = true;
+            ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
+            while (cont) {
+
+                Room aux = (Room) input.readObject();
+                if (aux != null) {
+                    rooms.add(aux);
+                } else {
+                    cont = false;
+                }
             }
-            objIn.close();
+            input.close();
         }
         catch (ClassNotFoundException | FileNotFoundException e){
             e.printStackTrace();
         }
-        catch (IOException e) {
+        catch(EOFException e){
+            System.out.println("El archivo fue cargado perfectamente");
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return rooms;
     }
 
-    @Override
-    public void save() {
-
+    public void save(List <Room> rooms) {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
             for (int i= 0; i < rooms.size(); i++){
-                objOut.writeObject(new Room(rooms.get(i)));
+                objOut.writeObject(rooms.get(i));
             }
             objOut.close();
         }
