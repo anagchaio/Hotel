@@ -1,10 +1,11 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Room {
+public class Room implements Serializable {
     private int roomNumber;
     private RoomType type;
     private RoomState roomState;
@@ -17,6 +18,12 @@ public class Room {
         this.roomState = RoomState.AVAILABLE;
         this.price = price;
         this.roomNumber = roomNumber;
+    }
+    public  Room(){
+
+    }
+
+    public Room(Room room) {
     }
 
     public int getRoomNumber() {
@@ -67,8 +74,8 @@ public class Room {
     public String toString() {
         return "Room{" +
                 "roomNumber=" + roomNumber +
-                ", type=" + type.getType() +
-                "," + roomState.getState() +
+                //", type=" + type.getType() +
+                //"," + roomState.getState() +
                 ", price=" + price +
                 ", roomGuests=" + roomGuests +
                 ", roomConsumptions=" + roomConsumptions +
