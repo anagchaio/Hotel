@@ -8,7 +8,7 @@ import static com.utn.RoomType.SIMPLE;
 public class Main {
 
     public static void main(String[] args) {
-        List<Room> rooms = new ArrayList<>();
+        List<Room> rooms; // new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         List<Reservation> reservations = new ArrayList<>();
         List<Guest> guests = new ArrayList<>();
@@ -33,6 +33,7 @@ public class Main {
 
         employees.add(admin);
 
+      
         /* Menu Principal*/
         int option;
         do

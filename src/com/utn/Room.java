@@ -19,8 +19,8 @@ public class Room implements Serializable {
         this.price = price;
         this.roomNumber = roomNumber;
     }
+    public  Room(){
 
-    public Room(Room room) {
     }
 
     public int getRoomNumber() {
@@ -80,8 +80,8 @@ public class Room implements Serializable {
     public String toString() {
         return "Room{" +
                 "roomNumber=" + roomNumber +
-                ", type=" + type.getType() +
-                "," + roomState.getState() +
+                //", type=" + type.getType() +
+                //"," + roomState.getState() +
                 ", price=" + price +
                 ", roomGuests=" + roomGuests +
                 ", roomConsumptions=" + roomConsumptions +
