@@ -9,7 +9,7 @@ public class Reservation {
     private static int counter = 1;
     private int idReservation;
     private Room room;
-    private List<Guest> Guests = new ArrayList<>();
+    private List<Guest> Guests;
     private Date checkInDate;
     private Date checkOutDate;
     private boolean isActive;
@@ -45,6 +45,14 @@ public class Reservation {
 
     public Date getCheckOutDate() {
         return checkOutDate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     private String showState(){

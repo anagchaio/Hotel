@@ -42,7 +42,7 @@ public class Main {
             menu.cleanScreen();
             System.out.println("\tBienvenidos");
             System.out.println("\n\t 1. Ingresar");
-            System.out.println("\n\t 0. Salir");
+            System.out.println("\n\t 0. Guardar y salir");
             option = menu.enterNumber("la opcion");
 
             switch(option)
@@ -191,11 +191,12 @@ public class Main {
                             menu.cleanScreen();
                             System.out.println("Recepcion");
                             System.out.println("\n\t 1. Tomar Reservas");
-                            System.out.println("\n\t 2. Check-In");
-                            System.out.println("\n\t 3. Check-out");
-                            System.out.println("\n\t 4. Habitaciones");
-                            System.out.println("\n\t 5. Servicio de Habitacion");
-                            System.out.println("\n\t 6. Volver al menu anterior");
+                            System.out.println("\n\t 2. Cancelar Reserva");
+                            System.out.println("\n\t 3. Check-In");
+                            System.out.println("\n\t 4. Check-out");
+                            System.out.println("\n\t 5. Mostrar Habitaciones");
+                            System.out.println("\n\t 6. Servicio de Habitacion");
+                            System.out.println("\n\t 7. Volver al menu anterior");
                             option = menu.enterNumber("la opcion");
                             switch(option) {
                                 case 1:
@@ -205,28 +206,34 @@ public class Main {
                                     break;
                                 case 2:
                                     menu.cleanScreen();
-                                    menu.checkIn((Recepcionist) user,reservations,rooms);
+                                    menu.cancelReservation((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
+
                                 case 3:
                                     menu.cleanScreen();
-                                    menu.checkOut((Recepcionist) user,rooms,invoices);
+                                    menu.checkIn((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
                                 case 4:
                                     menu.cleanScreen();
-                                    user.showRooms(rooms);
+                                    menu.checkOut((Recepcionist) user,rooms,invoices);
                                     menu.pause();
                                     break;
                                 case 5:
                                     menu.cleanScreen();
-                                    //menu.roomService((Recepcionist) user, rooms);
+                                    user.showRooms(rooms);
+                                    menu.pause();
+                                    break;
+                                case 6:
+                                    menu.cleanScreen();
+                                    menu.roomService((Recepcionist) user, products, rooms);
                                     menu.pause();
                                     break;
                                 default:
                                     menu.printIncorrectAnswer();
                             }
-                        } while(option != 6);
+                        } while(option != 7);
                     }
                     break;
 
@@ -234,9 +241,5 @@ public class Main {
                     menu.printIncorrectAnswer();
             }
         } while(option != 0);
-
-
-
-
     }
 }

@@ -20,6 +20,10 @@ public class Product {
         return name;
     }
 
+    public int getIdProduct() {
+        return idProduct;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
