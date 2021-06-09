@@ -98,13 +98,13 @@ public class Recepcionist extends Employee {
         return  totalPrice;
     }
 
-    public boolean verifyGuestDni(List<Guest> guests, String dni){
+    public Guest findGuestByDni(List<Guest> guests, String dni){
         for(Guest guest:guests){
             if(guest.getDni().equals(dni)){
-                return true;
+                return guest;
             }
         }
-        return false;
+        return null;
     }
 
     public void loadConsumptions(int roomNumber, List<Room> rooms){
