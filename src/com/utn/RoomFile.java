@@ -3,7 +3,6 @@ package com.utn;
 import java.io.*;
 import java.util.*;
 
-
 public class RoomFile{
 
     private String file;
@@ -38,7 +37,6 @@ public class RoomFile{
         }
         return rooms;
     }
-
 
     public void save(List <Room> rooms) {
         try {

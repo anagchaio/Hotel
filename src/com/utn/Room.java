@@ -23,6 +23,9 @@ public class Room implements Serializable {
 
     }
 
+    public Room(Room room) {
+    }
+
     public int getRoomNumber() {
         return roomNumber;
     }
