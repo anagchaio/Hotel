@@ -1,5 +1,8 @@
 package com.utn;
 
+import com.utn.Helpers.DateHelper;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -86,4 +89,12 @@ public class Reservation {
     public int hashCode() {
         return Objects.hash(getIdReservation());
     }
+
+public boolean dateIsAvailable(String sDate) throws ParseException {
+    Date pDate = DateHelper.stringToDate(sDate);
+    System.out.println("search: "+ pDate.toString() + " between " + this.checkInDate + this.checkInDate.after(pDate)
+            +" and "+ this.checkOutDate + this.checkOutDate.before(pDate));
+
+    return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
+}
 }
