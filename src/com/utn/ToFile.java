@@ -5,7 +5,7 @@ import java.util.*;
 public interface ToFile <T>{
 
     public List<T> load();
-    public void save();
+    public void save(List <T> list);
 
 
 }
