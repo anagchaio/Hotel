@@ -1,9 +1,10 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class Employee extends Person {
+public abstract class Employee extends Person implements Serializable {
     private static Integer counter = 1;
     protected Integer id;
     protected String userName;
