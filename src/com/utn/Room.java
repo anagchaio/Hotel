@@ -67,7 +67,6 @@ public class Room implements Serializable {
         this.roomConsumptions = roomConsumptions;
     }
 
-
     @Override
     public String toString() {
         return "Room{" +

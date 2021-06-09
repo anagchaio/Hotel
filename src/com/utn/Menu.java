@@ -30,7 +30,7 @@ public class Menu {
         System.out.println("\n\t--- Opcion incorrecta ---\n\n");
     }
     public void pause(){
-        System.out.println("Presione cualquier tecla para volver...");
+        System.out.print("\nPresione cualquier tecla para continuar...");
         new Scanner(System.in).nextLine();
     }
 
@@ -231,6 +231,10 @@ public class Menu {
         } else {
             System.out.println("No hay habitaciones disponibles");
         }
+    }
+
+    public void roomService(Recepcionist user, List<Product> products, List<Room> rooms){
+
     }
 
 
