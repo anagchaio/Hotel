@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Room implements Serializable {
+    private static final long serialVersionUID = 7970889473436230100L;
+
     private int roomNumber;
     private RoomType type;
     private RoomState roomState;
