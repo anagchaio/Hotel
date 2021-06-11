@@ -40,6 +40,8 @@ public class Main {
 
         ToFile<Product> productFile = new ToFile<>("products.dat");
         products = productFile.load();
+        if(products.size()>1)
+            Product.setCounter(products.size());
 
         /* Menu Principal*/
         Menu menu = new Menu();
@@ -131,7 +133,7 @@ public class Main {
                                             case 1:
                                                 menu.cleanScreen();
                                                 System.out.println("Proximamente");
-                                                //menu.AddProduct();
+                                                menu.addProduct(products);
                                                 menu.pause();
                                                 break;
                                             case 2:

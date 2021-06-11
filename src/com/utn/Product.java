@@ -18,6 +18,9 @@ public class Product implements Serializable {
         this.price = price;
         this.idProduct = counter++;
     }
+    public static void setCounter(Integer counter) {
+        Product.counter = counter;
+    }
 
     public String getName() {
         return name;
