@@ -11,7 +11,7 @@ public class ToFile <T>{
         this.file = file;
     }
 
-    public List<T> load() {
+    public List<T> load() throws IOException {
         List <T> list= new ArrayList<>();
         try {
             boolean cont = true;
@@ -38,7 +38,7 @@ public class ToFile <T>{
         return list;
     }
 
-    public void save(List <T> list) {
+    public void save(List <T> list) throws IOException {
         try {
             ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
             for (int i= 0; i < list.size(); i++){
