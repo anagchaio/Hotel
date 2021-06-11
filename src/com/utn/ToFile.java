@@ -4,7 +4,6 @@ import java.io.*;
 import java.util.*;
 
 public class ToFile <T>{
-
     private String file;
 
     public ToFile(String file){
@@ -13,11 +12,10 @@ public class ToFile <T>{
 
     public List<T> load() throws IOException {
         List <T> list= new ArrayList<>();
+        boolean cont = true;
+        ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
         try {
-            boolean cont = true;
-            ObjectInputStream input = new ObjectInputStream(new FileInputStream(file));
             while (cont) {
-
                 T aux = (T) input.readObject();
                 if (aux != null) {
                     list.add(aux);
@@ -25,29 +23,31 @@ public class ToFile <T>{
                     cont = false;
                 }
             }
-            input.close();
         }
         catch (ClassNotFoundException | FileNotFoundException e){
             e.printStackTrace();
         }
         catch(EOFException e){
-            System.out.println("El archivo fue cargado perfectamente");
+            System.out.println("El archivo " + file + " fue cargado totalmente");
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            input.close();
         }
         return list;
     }
 
     public void save(List <T> list) throws IOException {
+        ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
         try {
-            ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(file));
             for (int i= 0; i < list.size(); i++){
                 objOut.writeObject(list.get(i));
             }
-            objOut.close();
         }
         catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            objOut.close();
         }
     }
 }

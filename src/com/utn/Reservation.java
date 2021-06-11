@@ -2,15 +2,18 @@ package com.utn;
 
 import com.utn.Helpers.DateHelper;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static com.utn.Helpers.DateHelper.stringToDate;
 
-public class Reservation {
+public class Reservation implements Serializable {
+    private static final long serialVersionUID = 7970889473436230100L;
+
+
     private static int counter = 1;
     private int idReservation;
     private Room room;

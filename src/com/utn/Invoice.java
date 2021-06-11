@@ -1,9 +1,12 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Invoice {
+public class Invoice implements Serializable {
+    private static final long serialVersionUID = 7970889473436230100L;
+
     private static int counter = 1; //se setea con la lenth de la lista obtenida del archivo (si el lenth es 0 -> el counter vale 1)
     private int idInvoice;
     private Guest guest;
