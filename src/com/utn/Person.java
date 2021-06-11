@@ -1,8 +1,11 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Person {
+public abstract class Person implements Serializable {
+    private static final long serialVersionUID = 7970889473436230100L;
+
     protected String name;
     protected String surname;
     protected String dni;

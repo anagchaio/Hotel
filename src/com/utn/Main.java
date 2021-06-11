@@ -15,11 +15,12 @@ public class Main {
         List<Invoice> invoices = new ArrayList<>();
         List<Product> products = new ArrayList<>();
 
+
         /* Carga de Archivos */
         ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
         employees = employeeFile.load();
         if (employees.size() > 1) {
-            Employee.setCounter(employees.size());
+            Employee.setCounter(employees.size()+1);
         }
 
         ToFile<Room> roomFile = new ToFile<>("rooms.dat");
@@ -28,7 +29,7 @@ public class Main {
         ToFile<Reservation> reservationFile = new ToFile<>("reservations.dat");
         reservations = reservationFile.load();
         if(reservations.size()>1)
-            Reservation.setCounter(reservations.size());
+            Reservation.setCounter(reservations.size()+1);
 
         ToFile<Guest> guestFile = new ToFile<>("guests.dat");
         guests = guestFile.load();
@@ -36,12 +37,12 @@ public class Main {
         ToFile<Invoice> invoiceFile = new ToFile<>("invoices.dat");
         invoices = invoiceFile.load();
         if(invoices.size()>1)
-            Invoice.setCounter(invoices.size());
+            Invoice.setCounter(invoices.size()+1);
 
         ToFile<Product> productFile = new ToFile<>("products.dat");
         products = productFile.load();
         if(products.size()>1)
-            Product.setCounter(products.size());
+            Product.setCounter(products.size()+1);
 
         /* Menu Principal*/
         Menu menu = new Menu();
