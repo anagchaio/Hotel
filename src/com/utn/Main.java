@@ -16,6 +16,10 @@ public class Main {
         List<Product> products = new ArrayList<>();
         Menu menu = new Menu();
 
+
+  /*      ToFile<Room> roomFile = new ToFile<Room>("room.dat");
+        rooms = roomFile.load();*/
+
         if(employees.size()>1)
             Employee.setCounter(employees.size());
 
@@ -25,10 +29,6 @@ public class Main {
         if(invoices.size()>1)
             Invoice.setCounter(invoices.size());
 
-        /*int option;
-
-        option = menu.enterOption();
-        menu.cleanScreen();*/
         Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
         Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
         employees.add(admin);

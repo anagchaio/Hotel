@@ -74,11 +74,9 @@ public class Room implements Serializable {
     public String toString() {
         return "Room{" +
                 "roomNumber=" + roomNumber +
-                //", type=" + type.getType() +
-                //"," + roomState.getState() +
+                ", type=" + type.getType() +
+                "," + roomState.getState() +
                 ", price=" + price +
-                ", roomGuests=" + roomGuests +
-                ", roomConsumptions=" + roomConsumptions +
                 '}';
     }
 

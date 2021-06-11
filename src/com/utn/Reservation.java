@@ -90,11 +90,11 @@ public class Reservation {
         return Objects.hash(getIdReservation());
     }
 
-public boolean dateIsAvailable(String sDate) throws ParseException {
-    Date pDate = DateHelper.stringToDate(sDate);
-    System.out.println("search: "+ pDate.toString() + " between " + this.checkInDate + this.checkInDate.after(pDate)
-            +" and "+ this.checkOutDate + this.checkOutDate.before(pDate));
+    public boolean dateIsAvailable(String sDate) throws ParseException {
+        Date pDate = DateHelper.stringToDate(sDate);
+        System.out.println("search: "+ pDate.toString() + " between " + this.checkInDate + this.checkInDate.after(pDate)
+                +" and "+ this.checkOutDate + this.checkOutDate.before(pDate));
 
-    return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
-}
+        return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
+    }
 }

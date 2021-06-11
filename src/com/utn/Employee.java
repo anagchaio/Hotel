@@ -41,6 +41,10 @@ public abstract class Employee extends Person implements Serializable {
     public void showRooms(List<Room> rooms){
         for(Room room:rooms){
             System.out.println(room.toString());
+            if(room.getRoomState() != RoomState.AVAILABLE){
+                room.getRoomGuests();
+                room.getRoomConsumptions();
+            }
         }
     }
 

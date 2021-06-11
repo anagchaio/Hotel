@@ -55,7 +55,7 @@ public class Menu {
     /********************************************************************************
      Pide por pantalla que se ingrese un valor entero correspondiente a la opcion deseada
      *********************************************************************************/
-    public int enterNumber(String phase) {
+    public int enterNumber (String phase) throws InputMismatchException {
         try{
             System.out.print("\n\t Ingrese " + phase + ": ");
             return new Scanner(System.in).nextInt();
@@ -68,7 +68,7 @@ public class Menu {
     /********************************************************************************
      No esta funcionando :(
      *********************************************************************************/
-    public static void ClearConsole(){
+    public static void ClearConsole() throws Exception{
         try{
             String operatingSystem = System.getProperty("os.name"); //Check the current operating system
 
@@ -141,7 +141,7 @@ public class Menu {
         }
     }
 
-    public void changeRoomPrice(Administrator user, List<Room> rooms, RoomType type){
+    public void changeRoomPrice(Administrator user, List<Room> rooms, RoomType type) throws InputMismatchException{
         try{
             System.out.print("\n\t Ingrese el valor del nuevo precio: $");
             Double newPrice = new Scanner(System.in).nextDouble();
@@ -208,7 +208,25 @@ public class Menu {
         }
     }
 
-    public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations){
+    public List<Guest> registerRoomGuests(Recepcionist user, List<Guest> guests){
+        List<Guest> roomGuest = new ArrayList<>();
+        byte option = 's';
+        do {
+            System.out.println("\n\tGuests:");
+            Guest newGuest = this.registerGuest(user,guests);
+            if(newGuest != null){
+                roomGuest.add(newGuest);
+                System.out.println("\nEl huesped " + newGuest.toString() + " ha sido agregado a la reserva.");
+            } else {
+                System.out.println("\nNo se ha podido agregar al huesped.");
+            }
+            System.out.println("\nPresione 's' si desea seguir agregando huespedes.");
+            option = new Scanner(System.in).nextByte();
+        }while(option == 's' || option == 'S');
+        return roomGuest;
+    }
+
+    public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations) throws InputMismatchException{
         int roomNumber;
         Reservation reservation;
         if(user.checkVacancy(rooms)){
@@ -217,9 +235,8 @@ public class Menu {
                 roomNumber = this.enterNumber("el numero de habitacion");
                 Room room = user.findRoom(roomNumber,rooms);
                 if(room != null){
-                    Guest guest = this.registerGuest(user,guests);
                     List<Guest> roomGuests = new ArrayList<>();
-                    roomGuests.add(guest);
+                    roomGuests = registerRoomGuests(user, guests);
                     reservation = user.roomReservation(rooms,roomNumber,roomGuests);
                     room.setRoomState(RoomState.RESERVED);
                     reservations.add(reservation);
@@ -249,7 +266,7 @@ public class Menu {
         int roomNumber;
         roomNumber = this.enterNumber("el numero de habitacion");
         for(Room room:rooms){
-            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.OCCUPIED)){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState() == RoomState.OCCUPIED){
                 List<Product> selectedProducts = new ArrayList<>();
                 byte option = 's';
                 do {

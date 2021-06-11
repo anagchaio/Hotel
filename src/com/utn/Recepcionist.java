@@ -26,7 +26,7 @@ public class Recepcionist extends Employee {
 
     public void showAvailableRooms(List<Room> rooms){
         for(Room room:rooms){
-            if(room.getRoomState().equals(RoomState.AVAILABLE)){
+            if(room.getRoomState().getState() == RoomState.AVAILABLE.getState()){
                 System.out.println(room.toString());
             }
         }
@@ -34,7 +34,7 @@ public class Recepcionist extends Employee {
 
     public Room findRoom(int roomNumber, List<Room> rooms){
         for(Room room:rooms){
-            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.AVAILABLE)){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.AVAILABLE.getState()){
                 return room;
             }
         }
@@ -44,7 +44,7 @@ public class Recepcionist extends Employee {
     public Reservation roomReservation(List<Room> rooms, int roomNumber, List<Guest> guests) {
         Reservation reservation;
         for(Room room:rooms){
-            if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.AVAILABLE)){
+            if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.AVAILABLE.getState()){
                 room.setRoomState(RoomState.RESERVED);
                 //reservation = new Reservation() //faltan las fechas
                 //guests.add(reservation.getGuests());
@@ -84,11 +84,11 @@ public class Recepcionist extends Employee {
         return null;
     }
 
-    public Invoice checkOut(int roomNumber, List<Room> rooms){
+    public Invoice checkOut(int roomNumber, List<Room> rooms) throws NullPointerException {
         Invoice invoice;
         try{
             for(Room room:rooms){
-                if(room.getRoomNumber() == roomNumber && room.getRoomState().equals(RoomState.OCCUPIED)){
+                if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.OCCUPIED.getState()){
                     invoice = new Invoice(room.getRoomGuests().get(0), Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
                     room.getRoomGuests().removeAll(room.getRoomGuests());
                     room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
