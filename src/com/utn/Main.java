@@ -1,5 +1,6 @@
 package com.utn;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,21 +8,45 @@ import static com.utn.RoomType.SIMPLE;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         List<Room> rooms = new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         List<Reservation> reservations = new ArrayList<>();
         List<Guest> guests = new ArrayList<>();
         List<Invoice> invoices = new ArrayList<>();
         List<Product> products = new ArrayList<>();
-        Menu menu = new Menu();
 
 
-  /*      ToFile<Room> roomFile = new ToFile<Room>("room.dat");
-        rooms = roomFile.load();*/
+       /* Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
+        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
+        employees.add(admin);
+        employees.add(anagchaio);*/
 
-        if(employees.size()>1)
+        ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
+        employees = employeeFile.load();
+        if(employees.size()>1) {
             Employee.setCounter(employees.size());
+        }
+
+        ToFile<Room> roomFile = new ToFile<>("rooms.dat");
+        rooms = roomFile.load();
+
+        ToFile<Reservation> reservationFile = new ToFile<>("reservations.dat");
+        reservations = reservationFile.load();
+
+        ToFile<Guest> guestFile = new ToFile<>("guests.dat");
+        guests = guestFile.load();
+
+        ToFile<Invoice> invoiceFile = new ToFile<>("invoices.dat");
+        invoices = invoiceFile.load();
+
+        ToFile<Product> productFile = new ToFile<>("products.dat");
+        products = productFile.load();
+
+
+        Menu menu = new Menu();
+        menu.pause();
+
 
         if(reservations.size()>1)
             Reservation.setCounter(reservations.size());
@@ -29,12 +54,9 @@ public class Main {
         if(invoices.size()>1)
             Invoice.setCounter(invoices.size());
 
-        Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
-        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
-        employees.add(admin);
-        employees.add(anagchaio);
 
-      
+
+        menu.pause();
         /* Menu Principal*/
         int option;
         do
@@ -49,6 +71,12 @@ public class Main {
             {
                 case 0:
                     menu.cleanScreen();
+                    roomFile.save(rooms);
+                    employeeFile.save(employees);
+                    reservationFile.save(reservations);
+                    guestFile.save(guests);
+                    invoiceFile.save(invoices);
+                    productFile.save(products);
                     menu.printExitMessage();
                     break;
                 case 1:
