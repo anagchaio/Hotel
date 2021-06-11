@@ -33,17 +33,10 @@ public abstract class Employee extends Person implements Serializable {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public void showRooms(List<Room> rooms){
         for(Room room:rooms){
@@ -64,15 +57,15 @@ public abstract class Employee extends Person implements Serializable {
     }
 
     public void showGuests(List<Guest> guests, boolean isActive){
-        if(isActive == true){
+        if(isActive){
             for(Guest guest:guests){
-                if(guest.isActive() == true){
+                if(guest.isActive()){
                     System.out.println(guest.toString());
                 }
             }
         } else {
             for(Guest guest:guests){
-                if(guest.isActive() == false){
+                if(!guest.isActive()){
                     System.out.println(guest.toString());
                 }
             }
