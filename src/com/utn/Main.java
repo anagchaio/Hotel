@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.utn.RoomType.SIMPLE;
 
 public class Main {
 
@@ -16,15 +15,10 @@ public class Main {
         List<Invoice> invoices = new ArrayList<>();
         List<Product> products = new ArrayList<>();
 
-
-       /* Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
-        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
-        employees.add(admin);
-        employees.add(anagchaio);*/
-
+        /* Carga de Archivos */
         ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
         employees = employeeFile.load();
-        if(employees.size()>1) {
+        if (employees.size() > 1) {
             Employee.setCounter(employees.size());
         }
 
@@ -33,31 +27,22 @@ public class Main {
 
         ToFile<Reservation> reservationFile = new ToFile<>("reservations.dat");
         reservations = reservationFile.load();
+        if(reservations.size()>1)
+            Reservation.setCounter(reservations.size());
 
         ToFile<Guest> guestFile = new ToFile<>("guests.dat");
         guests = guestFile.load();
 
         ToFile<Invoice> invoiceFile = new ToFile<>("invoices.dat");
         invoices = invoiceFile.load();
+        if(invoices.size()>1)
+            Invoice.setCounter(invoices.size());
 
         ToFile<Product> productFile = new ToFile<>("products.dat");
         products = productFile.load();
 
-
-        Menu menu = new Menu();
-        menu.pause();
-
-
-        if(reservations.size()>1)
-            Reservation.setCounter(reservations.size());
-
-        if(invoices.size()>1)
-            Invoice.setCounter(invoices.size());
-
-
-
-        menu.pause();
         /* Menu Principal*/
+        Menu menu = new Menu();
         int option;
         do
         {
