@@ -1,9 +1,8 @@
 package com.utn;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import com.utn.Helpers.DateHelper;
+
+import java.util.*;
 
 public class Menu {
 
@@ -208,7 +207,7 @@ public class Menu {
 
     public List<Guest> registerRoomGuests(Recepcionist user, List<Guest> guests){
         List<Guest> roomGuest = new ArrayList<>();
-        byte option = 's';
+        char option = 's';
         do {
             System.out.println("\n\tGuests:");
             Guest newGuest = this.registerGuest(user,guests);
@@ -219,26 +218,30 @@ public class Menu {
                 System.out.println("\nNo se ha podido agregar al huesped.");
             }
             System.out.println("\nPresione 's' si desea seguir agregando huespedes.");
-            option = new Scanner(System.in).nextByte();
+            option = new Scanner(System.in).next().charAt(0);
         }while(option == 's' || option == 'S');
         return roomGuest;
     }
 
     public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations) throws InputMismatchException{
-        int roomNumber;
+        RoomType rt = RoomType.selectRoomType();
+        String sDate = DateHelper.enterDate();
+        Date searchDate = DateHelper.stringToDate(sDate);
+
+        Room room = user.searchAvailableRoom(rt,rooms,reservations, searchDate);
         Reservation reservation;
+
         if(user.checkVacancy(rooms)){
             user.showAvailableRooms(rooms);
             try{
-                roomNumber = this.enterNumber("el numero de habitacion");
-                Room room = user.findRoom(roomNumber,rooms);
+
                 if(room != null){
                     List<Guest> roomGuests = new ArrayList<>();
                     roomGuests = registerRoomGuests(user, guests);
-                    reservation = user.roomReservation(rooms,roomNumber,roomGuests);
+                    reservation = user.roomReservation(rooms,room.getRoomNumber(),roomGuests);
                     room.setRoomState(RoomState.RESERVED);
                     reservations.add(reservation);
-                    System.out.println("\nLa reserva se realizo con exito. La habitacion nro. " + roomNumber + " ha sido reservada." );
+                    System.out.println("\nLa reserva se realizo con exito. La habitacion nro. " + room.getRoomNumber() + " ha sido reservada." );
                 } else {
                     System.out.println("\nEl numero de habitacion no existe o no esta disponible");
                 }

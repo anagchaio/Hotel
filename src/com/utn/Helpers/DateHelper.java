@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class DateHelper {
-    public static Date stringToDate(String sDate) throws ParseException {
+    public static Date stringToDate(String sDate) {
         try{
             Date auxDate=new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
             System.out.println(sDate+"\t"+auxDate);

@@ -92,8 +92,7 @@ public class Reservation {
         return Objects.hash(getIdReservation());
     }
 
-    public boolean dateIsAvailable(String sDate) throws ParseException {
-        Date pDate = stringToDate(sDate);
-        return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
+    public boolean dateIsAvailable(Date date) {
+        return this.checkInDate.before(date) && this.checkOutDate.after(date);
     }
 }

@@ -4,9 +4,6 @@ import com.utn.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import static com.utn.Helpers.DateHelper.enterDate;
 import static com.utn.Helpers.DateHelper.stringToDate;
 
 public class Helpers {
@@ -40,11 +37,10 @@ public class Helpers {
                 stringToDate("03/11/2020"),
                 stringToDate("01/12/2020")));
 
+Recepcionist carlo = new Recepcionist();
+Menu m = new Menu();
+m.registerNewReservation(carlo, rooms, guests,reservations);
 
 
-
-        Room available = SearchHelper.searchAvailableRoom( RoomType.SIMPLE ,rooms, reservations, enterDate());
-
-        System.out.println(available.toString());
     }
 }

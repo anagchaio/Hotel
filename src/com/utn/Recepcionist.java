@@ -1,6 +1,7 @@
 package com.utn;
 
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,49 @@ public class Recepcionist extends Employee {
         return null;
     }
 
+    public static Room searchAvailableRoom(
+            RoomType roomType,
+            List<Room> rooms,
+            List<Reservation> reservations,
+            java.util.Date date
+    ) {
+        rooms = filterRooms(roomType, rooms);
+        for (Room r:rooms ) {
+            reservations = filterReservationsByRoom(reservations, r);
+            for(Reservation res: reservations){
+                if(res.dateIsAvailable(date) && r.getRoomState().getState() == RoomState.AVAILABLE.getState()){
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
 
+    public static List<Room> filterRooms(
+            RoomType roomType,
+            List<Room> rooms
+    ){
+        ArrayList<Room> filteredRooms = new ArrayList<Room>();
+        for (Room r: rooms) {
+            if (r.getType()==roomType){
+                filteredRooms.add(r);
+            }
+        }
+        return filteredRooms;
+    }
+
+    public static List<Reservation> filterReservationsByRoom(
+            List<Reservation> reservations,
+            Room room
+    ){
+        ArrayList<Reservation> filteredReservations = new ArrayList<>();
+        for (Reservation res:reservations) {
+            if (res.getRoom().equals(room)){
+                filteredReservations.add(res);
+            }
+        }
+        return filteredReservations;
+    }
 
 
 }
