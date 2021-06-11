@@ -30,7 +30,7 @@ public class Administrator extends Employee {
 
     public boolean verifyEmployeeDni(String dni, List<Employee> employees){
         for(Employee employee: employees){
-            if(employee.getDni().equals(dni)){
+            if(employee.getDni() == dni){
                 return true;
             }
         }
