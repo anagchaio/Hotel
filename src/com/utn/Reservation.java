@@ -94,7 +94,6 @@ public class Reservation {
 
     public boolean dateIsAvailable(String sDate) throws ParseException {
         Date pDate = stringToDate(sDate);
-
         return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
     }
 }
