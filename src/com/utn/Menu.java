@@ -62,6 +62,16 @@ public class Menu {
         }
     }
 
+    public Double enterDouble (String phase) throws InputMismatchException {
+        try{
+            System.out.print("\n\t Ingrese " + phase + ": ");
+            return new Scanner(System.in).nextDouble();
+        } catch (InputMismatchException e){
+            System.out.print("\n\t Error - Debe ingresar un numero.");
+            return this.enterDouble(phase);
+        }
+    }
+
     /********************************************************************************
      No esta funcionando :(
      *********************************************************************************/
@@ -292,6 +302,18 @@ public class Menu {
         }
     }
 
+    public void addProduct(List<Product> products) throws InputMismatchException {
+        String name;
+        String description;
+        System.out.println("\nIngresar datos del Producto");
+        System.out.print("\n\t Ingrese el nombre: ");
+        name = new Scanner(System.in).nextLine();
+        System.out.print("\n\t Ingrese la descripcion: ");
+        description = new Scanner(System.in).nextLine();
+        Double price = enterDouble("el precio: $");
+        Product newProduct = new Product(name,description,price);
+        products.add(newProduct);
+    }
 
     /**********************************************************************
      Funcion que muestra mensaje de despedida
