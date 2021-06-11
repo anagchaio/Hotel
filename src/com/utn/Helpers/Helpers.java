@@ -4,7 +4,8 @@ import com.utn.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
+
+import static com.utn.Helpers.DateHelper.stringToDate;
 
 public class Helpers {
     public static void main(String[] args) throws ParseException {
@@ -21,25 +22,23 @@ public class Helpers {
         guests.add(new Guest("333", "333", "333",333));
 
 
-        try {
-            reservations.add(new Reservation(rooms.get(0) ,
-                    guests,
-                    DateHelper.stringToDate("11/12/2020"),
-                    DateHelper.stringToDate("17/12/2020")));
 
-            reservations.add(new Reservation(rooms.get(0) ,
-                    guests,
-                    DateHelper.stringToDate("02/12/2020"),
-                    DateHelper.stringToDate("08/12/2020")));
+        reservations.add(new Reservation(rooms.get(0) ,
+                guests,
+                stringToDate("11/12/2020"),
+                stringToDate("17/12/2020")));
 
-            reservations.add(new Reservation(rooms.get(2) ,
-                    guests,
-                    DateHelper.stringToDate("03/11/2020"),
-                    DateHelper.stringToDate("01/12/2020")));
+        reservations.add(new Reservation(rooms.get(0) ,
+                guests,
+                stringToDate("02/12/2020"),
+                stringToDate("08/12/2020")));
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        reservations.add(new Reservation(rooms.get(2) ,
+                guests,
+                stringToDate("03/11/2020"),
+                stringToDate("01/12/2020")));
+
+
 
         Room available = SearchHelper.searchAvailableRoom( RoomType.SIMPLE ,rooms, reservations, "05/12/2020");
 

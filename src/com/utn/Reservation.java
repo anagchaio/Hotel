@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import static com.utn.Helpers.DateHelper.stringToDate;
+
 public class Reservation {
     private static int counter = 1;
     private int idReservation;
@@ -91,9 +93,7 @@ public class Reservation {
     }
 
     public boolean dateIsAvailable(String sDate) throws ParseException {
-        Date pDate = DateHelper.stringToDate(sDate);
-        System.out.println("search: "+ pDate.toString() + " between " + this.checkInDate + this.checkInDate.after(pDate)
-                +" and "+ this.checkOutDate + this.checkOutDate.before(pDate));
+        Date pDate = stringToDate(sDate);
 
         return this.checkInDate.before(pDate) && this.checkOutDate.after(pDate);
     }
