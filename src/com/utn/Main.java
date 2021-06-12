@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         List<Room> rooms = new ArrayList<>();
         List<Employee> employees = new ArrayList<>();
         List<Reservation> reservations = new ArrayList<>();
@@ -15,9 +15,14 @@ public class Main {
         List<Invoice> invoices = new ArrayList<>();
         List<Product> products = new ArrayList<>();
 
+/*        Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
+        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
+        employees.add(admin);
+        employees.add(anagchaio);*/
 
         /* Carga de Archivos */
         ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
+        //employeeFile.save(employees);
         employees = employeeFile.load();
         if (employees.size() > 1) {
             Employee.setCounter(employees.size()+1);
@@ -26,7 +31,10 @@ public class Main {
         ToFile<Room> roomFile = new ToFile<>("rooms.dat");
         rooms = roomFile.load();
 
+
         ToFile<Reservation> reservationFile = new ToFile<>("reservations.dat");
+
+        reservationFile.save(reservations);
         reservations = reservationFile.load();
         if(reservations.size()>1)
             Reservation.setCounter(reservations.size()+1);
@@ -46,6 +54,7 @@ public class Main {
 
         /* Menu Principal*/
         Menu menu = new Menu();
+
         int option;
         do
         {
@@ -208,11 +217,12 @@ public class Main {
                             System.out.println("Recepcion");
                             System.out.println("\n\t 1. Tomar Reservas");
                             System.out.println("\n\t 2. Cancelar Reserva");
-                            System.out.println("\n\t 3. Check-In");
-                            System.out.println("\n\t 4. Check-out");
-                            System.out.println("\n\t 5. Mostrar Habitaciones");
-                            System.out.println("\n\t 6. Servicio de Habitacion");
-                            System.out.println("\n\t 7. Volver al menu anterior");
+                            System.out.println("\n\t 3. Mostrar Reservas");
+                            System.out.println("\n\t 4. Check-In");
+                            System.out.println("\n\t 5. Check-out");
+                            System.out.println("\n\t 6. Mostrar Habitaciones");
+                            System.out.println("\n\t 7. Servicio de Habitacion");
+                            System.out.println("\n\t 8. Volver al menu anterior");
                             option = menu.enterNumber("la opcion");
                             switch(option) {
                                 case 1:
@@ -225,23 +235,28 @@ public class Main {
                                     menu.cancelReservation((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
-
                                 case 3:
+                                    menu.cleanScreen();
+                                    user.showReservations(reservations);
+                                    menu.pause();
+                                    break;
+
+                                case 4:
                                     menu.cleanScreen();
                                     menu.checkIn((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
-                                case 4:
+                                case 5:
                                     menu.cleanScreen();
                                     menu.checkOut((Recepcionist) user,rooms,invoices);
                                     menu.pause();
                                     break;
-                                case 5:
+                                case 6:
                                     menu.cleanScreen();
                                     user.showRooms(rooms);
                                     menu.pause();
                                     break;
-                                case 6:
+                                case 7:
                                     menu.cleanScreen();
                                     menu.roomService((Recepcionist) user, products, rooms);
                                     menu.pause();
@@ -249,7 +264,7 @@ public class Main {
                                 default:
                                     menu.printIncorrectAnswer();
                             }
-                        } while(option != 7);
+                        } while(option != 8);
                     }
                     break;
 

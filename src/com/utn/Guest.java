@@ -3,6 +3,7 @@ package com.utn;
 import java.io.Serializable;
 
 public class Guest extends Person implements Serializable {
+    private static final long serialVersionUID = 7970889473436230100L;
 
     private boolean isActive;
 

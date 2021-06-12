@@ -1,12 +1,14 @@
 package com.utn;
 
-import java.sql.Date;
-import java.text.ParseException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-public class Recepcionist extends Employee {
+public class Recepcionist extends Employee implements Serializable {
+
+    private static final long serialVersionUID = 7970889473436230100L;
 
     public Recepcionist(){
         super();
@@ -42,17 +44,6 @@ public class Recepcionist extends Employee {
         return null;
     }
 
-    public Reservation roomReservation(List<Room> rooms, int roomNumber, List<Guest> guests) {
-        Reservation reservation;
-        for(Room room:rooms){
-            if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.AVAILABLE.getState()){
-                room.setRoomState(RoomState.RESERVED);
-                //reservation = new Reservation() //faltan las fechas
-                //guests.add(reservation.getGuests());
-            }
-        }
-        return null;
-    }
 
     public boolean roomCancellation(List<Room> rooms, List<Reservation> reservations, int reservationId) {
         for (Reservation reservation: reservations){
@@ -90,9 +81,13 @@ public class Recepcionist extends Employee {
         try{
             for(Room room:rooms){
                 if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.OCCUPIED.getState()){
-                    invoice = new Invoice(room.getRoomGuests().get(0), Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
-                    room.getRoomGuests().removeAll(room.getRoomGuests());
-                    room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
+                    invoice = new Invoice(room.getRoomGuests(), java.sql.Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
+                    if(room.getRoomGuests() != null){
+                        room.getRoomGuests().removeAll(room.getRoomGuests());
+                    }
+                    if(room.getRoomConsumptions() != null){
+                        room.getRoomConsumptions().removeAll(room.getRoomConsumptions());
+                    }
                     room.setRoomState(RoomState.AVAILABLE);
                     return invoice;
                 }
@@ -130,41 +125,30 @@ public class Recepcionist extends Employee {
         return null;
     }
 
-    public static Room searchAvailableRoom(
-            RoomType roomType,
-            List<Room> rooms,
-            List<Reservation> reservations,
-            java.util.Date date
-    ) {
-        rooms = filterRooms(roomType, rooms);
-        for (Room r:rooms ) {
-            reservations = filterReservationsByRoom(reservations, r);
-            for(Reservation res: reservations){
-                if(res.dateIsAvailable(date) && r.getRoomState().getState() == RoomState.AVAILABLE.getState()){
-                    return r;
+    public Room searchAvailableRoom(RoomType roomType, List<Room> rooms, List<Reservation> reservations, java.util.Date date) {
+        rooms = this.filterRooms(roomType, rooms);
+        for (Room room:rooms ) {
+            reservations = filterReservationsByRoom(reservations, room);
+            for(Reservation reservation: reservations){
+                if(reservation.dateIsAvailable(date) && room.getRoomState().getState() == RoomState.AVAILABLE.getState()){
+                    return room;
                 }
             }
         }
         return null;
     }
 
-    public static List<Room> filterRooms(
-            RoomType roomType,
-            List<Room> rooms
-    ){
-        ArrayList<Room> filteredRooms = new ArrayList<Room>();
-        for (Room r: rooms) {
-            if (r.getType()==roomType){
-                filteredRooms.add(r);
+    public List<Room> filterRooms(RoomType roomType, List<Room> rooms){
+        ArrayList<Room> filteredRooms = new ArrayList<>();
+        for (Room room: rooms) {
+            if (room.getType()==roomType){
+                filteredRooms.add(room);
             }
         }
         return filteredRooms;
     }
 
-    public static List<Reservation> filterReservationsByRoom(
-            List<Reservation> reservations,
-            Room room
-    ){
+    public static List<Reservation> filterReservationsByRoom(List<Reservation> reservations, Room room){
         ArrayList<Reservation> filteredReservations = new ArrayList<>();
         for (Reservation res:reservations) {
             if (res.getRoom().equals(room)){

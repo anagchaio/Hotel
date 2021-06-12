@@ -2,6 +2,7 @@ package com.utn;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class Invoice implements Serializable {
@@ -9,12 +10,12 @@ public class Invoice implements Serializable {
 
     private static int counter = 1; //se setea con la lenth de la lista obtenida del archivo (si el lenth es 0 -> el counter vale 1)
     private int idInvoice;
-    private Guest guest;
+    private List<Guest> guests;
     private Date date;
     private Double price;
 
-    public Invoice(Guest guest, Date date, Double price) {
-        this.guest = guest;
+    public Invoice(List<Guest> guests, Date date, Double price) {
+        this.guests = guests;
         this.date = date;
         this.price = price;
         this.idInvoice = counter++;
@@ -33,12 +34,12 @@ public class Invoice implements Serializable {
         this.idInvoice = idInvoice;
     }
 
-    public Guest getGuest() {
-        return guest;
+    public List<Guest> getGuest() {
+        return guests;
     }
 
-    public void setGuest(Guest guest) {
-        this.guest = guest;
+    public void setGuest(List<Guest>  guests) {
+        this.guests = guests;
     }
 
     public Date getDate() {
@@ -61,7 +62,7 @@ public class Invoice implements Serializable {
     public String toString() {
         return "Payment{" +
                 "idPayment=" + idInvoice +
-                ", guest=" + guest +
+                ", guests=" + guests +
                 ", date=" + date +
                 ", price=" + price +
                 '}';

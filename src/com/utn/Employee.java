@@ -62,6 +62,14 @@ public abstract class Employee extends Person implements Serializable {
         }
     }
 
+    public void showReservations(List<Reservation> reservations){
+        for (Reservation reservation: reservations){
+            if(reservation.isActive() == true){
+                System.out.println(reservation.toString());
+            }
+        }
+    }
+
     public void showGuests(List<Guest> guests, boolean isActive){
         if(isActive){
             for(Guest guest:guests){

@@ -3,6 +3,7 @@ package com.utn;
 import com.utn.Helpers.DateHelper;
 
 import java.util.*;
+import java.util.Date;
 
 public class Menu {
 
@@ -75,24 +76,6 @@ public class Menu {
     /********************************************************************************
      No esta funcionando :(
      *********************************************************************************/
-    public static void ClearConsole() throws Exception{
-        try{
-            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
-
-            if(operatingSystem.contains("Windows")){
-                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
-                Process startProcess = pb.inheritIO().start();
-                startProcess.waitFor();
-            } else {
-                ProcessBuilder pb = new ProcessBuilder("clear");
-                Process startProcess = pb.inheritIO().start();
-
-                startProcess.waitFor();
-            }
-        }catch(Exception e){
-            System.out.println(e);
-        }
-    }
 
     public void cleanScreen() {
         for(int i = 0; i< 14; ++i)
@@ -182,9 +165,8 @@ public class Menu {
 
     public void checkOut(Recepcionist user, List<Room> rooms, List<Invoice> invoices){
         int roomNumber;
-        Invoice invoice;
         roomNumber = this.enterNumber("el numero de habitacion");
-        invoice = user.checkOut(roomNumber,rooms);
+        Invoice invoice = user.checkOut(roomNumber,rooms);
 
         if(invoice != null){
             System.out.println("El check-out fue exitoso. La habitacion Nro. "+roomNumber+" fue liberada.");
@@ -233,30 +215,54 @@ public class Menu {
         return roomGuest;
     }
 
-    public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations) throws InputMismatchException{
-        RoomType rt = RoomType.selectRoomType();
-        String sDate = DateHelper.enterDate();
-        Date searchDate = DateHelper.stringToDate(sDate);
+    public RoomType selectRoomType(){
+        RoomType roomType = null;
+        System.out.print("\n\t Tipo de habitaciones\n");
+        System.out.print("\t 1. Simple\n");
+        System.out.print("\t 2. Double\n");
+        System.out.print("\t 3. Suite\n");
+        int number = this.enterNumber("el numero segun el tipo de habitacion");
 
-        Room room = user.searchAvailableRoom(rt,rooms,reservations, searchDate);
-        Reservation reservation;
+        switch (number){
+            case 1:
+                roomType = RoomType.SIMPLE;
+                break;
+            case 2:
+                roomType = RoomType.DOUBLE;
+                break;
+            case 3:
+                roomType = RoomType.SUITE;
+                break;
+            default:
+                System.out.print("\n\tNo es un valor valido. Ingrese otro.\n");
+                selectRoomType();
+                break;
+        }
+        return roomType;
+    }
 
-        if(user.checkVacancy(rooms)){
-            user.showAvailableRooms(rooms);
-            try{
+    public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations) {
+        RoomType roomType = this.selectRoomType();
 
-                if(room != null){
-                    List<Guest> roomGuests = new ArrayList<>();
-                    roomGuests = registerRoomGuests(user, guests);
-                    reservation = user.roomReservation(rooms,room.getRoomNumber(),roomGuests);
-                    room.setRoomState(RoomState.RESERVED);
-                    reservations.add(reservation);
-                    System.out.println("\nLa reserva se realizo con exito. La habitacion nro. " + room.getRoomNumber() + " ha sido reservada." );
-                } else {
-                    System.out.println("\nEl numero de habitacion no existe o no esta disponible");
-                }
-            } catch (InputMismatchException e){
-                System.out.print("\n\t Error - Debe ingresar un numero.\n\t");
+        if(user.checkVacancy(user.filterRooms(roomType,rooms))){
+           user.showAvailableRooms(user.filterRooms(roomType,rooms));
+           int roomNumber = this.enterNumber("el numero de habitacion");
+           Room room = user.findRoom(roomNumber,rooms);
+            if(room != null){
+                List<Guest> roomGuests = new ArrayList<>();
+                roomGuests = registerRoomGuests(user, guests);
+                String stringDate = DateHelper.enterDate();
+                Date checkInDate = DateHelper.stringToDate(stringDate);
+                String stringDate2 = DateHelper.enterDate();
+                Date checkOutDate = DateHelper.stringToDate(stringDate2);
+                Reservation reservation = new Reservation(room,roomGuests,checkInDate,checkOutDate);
+                room.setRoomState(RoomState.RESERVED);
+                room.setRoomGuests(roomGuests);
+                guests.addAll(roomGuests);
+                reservations.add(reservation);
+                System.out.println("\nLa reserva se realizo con exito. La habitacion nro. " + room.getRoomNumber() + " ha sido reservada." );
+            } else {
+                System.out.println("\nEl numero de habitacion no existe o no esta disponible");
             }
         } else {
             System.out.println("\nNo hay habitaciones disponibles");
@@ -276,10 +282,13 @@ public class Menu {
     public void roomService(Recepcionist user, List<Product> products, List<Room> rooms) {
         int roomNumber;
         roomNumber = this.enterNumber("el numero de habitacion");
-        for(Room room:rooms){
-            if(room.getRoomNumber() == roomNumber && room.getRoomState() == RoomState.OCCUPIED){
+        int i = 0;
+        boolean flag = false;
+        while(!flag && rooms.size()>i){
+            if(rooms.get(i).getRoomNumber() == roomNumber && rooms.get(i).getRoomState() == RoomState.OCCUPIED){
+                flag = true;
                 List<Product> selectedProducts = new ArrayList<>();
-                byte option = 's';
+                char option = 's';
                 do {
                     System.out.println("\n\tProductos:");
                     user.showProducts(products);
@@ -293,12 +302,18 @@ public class Menu {
                         System.out.println("\nEl id seleccionado no corresponde a un producto.");
                     }
                     System.out.println("\nPresione 's' si desea seguir agregando productos.");
-                    option = new Scanner(System.in).nextByte();
-                }while(option == 's' || option == 'S');
-                room.getRoomConsumptions().add(new Consumption(selectedProducts));
-            } else {
-                System.out.println("\nEl numero de habitacion es incorrecto.");
+                    try {
+                        option = new Scanner(System.in).next().charAt(0);
+                    } catch (InputMismatchException e){
+                        System.out.println("Valor incorrecto. ingrese un caracter");
+                    }
+                } while(option == 's' || option == 'S');
+                rooms.get(i).getRoomConsumptions().add(new Consumption(selectedProducts));
             }
+            i++;
+        }
+        if(flag == false) {
+            System.out.println("\nEl numero de habitacion es incorrecto.");
         }
     }
 

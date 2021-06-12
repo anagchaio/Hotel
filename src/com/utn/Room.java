@@ -21,12 +21,6 @@ public class Room implements Serializable {
         this.price = price;
         this.roomNumber = roomNumber;
     }
-    public  Room(){
-
-    }
-
-    public Room(Room room) {
-    }
 
     public int getRoomNumber() {
         return roomNumber;

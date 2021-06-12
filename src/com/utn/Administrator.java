@@ -1,8 +1,11 @@
 package com.utn;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Administrator extends Employee {
+public class Administrator extends Employee implements Serializable {
+
+    private static final long serialVersionUID = 7970889473436230100L;
 
     public Administrator(){
         super();
