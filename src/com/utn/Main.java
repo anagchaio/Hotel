@@ -19,7 +19,7 @@ public class Main {
         /* Carga de Archivos */
         ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
         employees = employeeFile.load();
-        if (employees.size() > 1) {
+        if (employees.size() >= 1) {
             Employee.setCounter(employees.size()+1);
         }
 
@@ -33,7 +33,7 @@ public class Main {
         for (Reservation reservation:reservations){
             System.out.println(reservation.toString());
         }
-        if(reservations.size()>1)
+        if(reservations.size() >= 1)
             Reservation.setCounter(reservations.size()+1);
 
         ToFile<Guest> guestFile = new ToFile<>("guests.dat");
@@ -41,12 +41,12 @@ public class Main {
 
         ToFile<Invoice> invoiceFile = new ToFile<>("invoices.dat");
         invoices = invoiceFile.load();
-        if(invoices.size()>1)
+        if(invoices.size() >= 1)
             Invoice.setCounter(invoices.size()+1);
 
         ToFile<Product> productFile = new ToFile<>("products.dat");
         products = productFile.load();
-        if(products.size()>1)
+        if(products.size() >= 1)
             Product.setCounter(products.size()+1);
 
         /* Menu Principal*/

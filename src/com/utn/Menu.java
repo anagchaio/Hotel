@@ -169,12 +169,12 @@ public class Menu {
     public Guest registerGuest(Recepcionist user, List<Guest> guests){
         String dni;
         Guest guest;
-        System.out.println("\nIngresar datos del huesped");
+        System.out.println("\n\t Ingresar datos del huesped");
         System.out.print("\n\t Ingrese el dni: ");
         dni = new Scanner(System.in).nextLine();
         guest = user.findGuestByDni(guests,dni);
         if(guest != null){
-            System.out.println("\nEl DNI ingresado ya pertenece a un huesped.");
+            System.out.println("\n\t El DNI ingresado ya pertenece a un huesped.");
             return guest;
         } else {
             System.out.print("\n\t Ingrese el nombre: ");
@@ -190,7 +190,7 @@ public class Menu {
         List<Guest> roomGuest = new ArrayList<>();
         char option = 's';
         do {
-            System.out.println("\n\tGuests:");
+            System.out.println("\n\tCarga de Huespedes:");
             Guest newGuest = this.registerGuest(user,guests);
             if(newGuest != null){
                 roomGuest.add(newGuest);
@@ -230,6 +230,36 @@ public class Menu {
         return roomType;
     }
 
+    public Date addCheckInDate () {
+        System.out.println();
+        Date checkInDate = null;
+        boolean flag = false;
+        while(!flag) {
+            checkInDate = DateHelper.stringToDate("para el Check-In");
+            if(!DateHelper.validateCheckInDate(checkInDate)){
+                System.out.println("La fecha debe ser posterior a la fecha actual");
+            } else {
+                flag = true;
+            }
+        }
+        return checkInDate;
+    }
+
+    public Date addCheckOutDate (Date checkInDate) {
+        System.out.println();
+        Date checkOutDate = null;
+        boolean flag = false;
+        while(!flag) {
+            checkOutDate = DateHelper.stringToDate("para el Check-Out");
+            if(!DateHelper.validateCheckOutDate(checkInDate,checkOutDate)){
+                System.out.println("La fecha debe ser posterior a la fecha del check-In");
+            } else {
+                flag = true;
+            }
+        }
+        return checkOutDate;
+    }
+
     public void registerNewReservation(Recepcionist user, List<Room> rooms, List<Guest> guests, List<Reservation> reservations) {
         RoomType roomType = this.selectRoomType();
 
@@ -239,10 +269,8 @@ public class Menu {
            Room room = user.findRoom(roomNumber,rooms);
             if(room != null){
                 List<Guest> roomGuests = registerRoomGuests(user, guests);
-                String stringDate = DateHelper.enterDate();
-                Date checkInDate = DateHelper.stringToDate(stringDate);
-                String stringDate2 = DateHelper.enterDate();
-                Date checkOutDate = DateHelper.stringToDate(stringDate2);
+                Date checkInDate = this.addCheckInDate();
+                Date checkOutDate = this.addCheckOutDate(checkInDate);
                 Reservation reservation = new Reservation(room,roomGuests,checkInDate,checkOutDate);
                 room.setRoomState(RoomState.RESERVED);
                 room.setRoomGuests(roomGuests);
@@ -281,13 +309,13 @@ public class Menu {
                     System.out.println("\n\tProductos:");
                     user.showProducts(products);
                     int productId;
-                    productId = this.enterNumber("el id del producto que desea cargar a la habitacion");
+                    productId = this.enterNumber("el nro del producto que desea cargar a la habitacion");
                     Product product = user.findProductById(productId,products);
                     if(product != null){
                         selectedProducts.add(product);
                         System.out.println("\nEl producto " + product.toString() + " ha sido agregado");
                     } else {
-                        System.out.println("\nEl id seleccionado no corresponde a un producto.");
+                        System.out.println("\nEl nro seleccionado no corresponde a un producto.");
                     }
                     System.out.println("\nPresione 's' si desea seguir agregando productos.");
                     try {
