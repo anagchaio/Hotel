@@ -100,13 +100,7 @@ public class Recepcionist extends Employee implements Serializable {
         return null;
     }
 
-    public Double getRoomTotalPrice(Room room){
-        Double totalPrice = room.getPrice();
-        for(Consumption consumption: room.getRoomConsumptions()){
-            totalPrice += consumption.getTotalPrice();
-        }
-        return  totalPrice;
-    }
+
 
     public Guest findGuestByDni(List<Guest> guests, String dni){
         for(Guest guest:guests){

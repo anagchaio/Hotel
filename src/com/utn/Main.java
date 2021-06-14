@@ -92,7 +92,7 @@ public class Main {
                             menu.printHeader("\t\t ADMINISTRACION");
                             System.out.println("\n\t 1. Empleados");
                             System.out.println("\n\t 2. Productos");
-                            System.out.println("\n\t 3. Precios"); //Change Rooms prices & see invoices - total incomes
+                            System.out.println("\n\t 3. Precios");
                             System.out.println("\n\t 4. Volver al menu anterior");
                             option = menu.enterNumber("la opcion");
                             switch(option) {
@@ -202,7 +202,7 @@ public class Main {
                                                 break;
                                             case 2:
                                                 menu.cleanScreen();
-                                                menu.printHeader("lISTADO DE FACTURAS");
+                                                menu.printHeader("LISTADO DE FACTURAS");
                                                 ((Administrator) user).showInvoices(invoices);
                                                 menu.pause();
                                                 break;

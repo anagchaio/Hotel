@@ -43,11 +43,21 @@ public abstract class Employee extends Person implements Serializable {
     public void showRooms(List<Room> rooms){
         for(Room room:rooms){
             System.out.println(room.toString());
-            if(room.getRoomState() != RoomState.AVAILABLE){
-                room.getRoomGuests();
-                room.getRoomConsumptions();
+            if(room.getRoomState() == RoomState.OCCUPIED){
+                System.out.println("Huespedes: \n" +room.getRoomGuests().toString());
+                System.out.println("Consumisiones: \n" + room.getRoomConsumptions().toString());
+                System.out.println("TOTAL a pagar $" + this.getRoomTotalPrice(room));
             }
+            System.out.println("");
         }
+    }
+
+    public Double getRoomTotalPrice(Room room){
+        Double totalPrice = room.getPrice();
+        for(Consumption consumption: room.getRoomConsumptions()){
+            totalPrice += consumption.getTotalPrice();
+        }
+        return  totalPrice;
     }
 
     public void showEmployees(List<Employee> employees){

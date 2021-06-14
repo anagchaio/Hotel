@@ -35,9 +35,7 @@ public class Consumption {
 
     @Override
     public String toString() {
-        return "Consumption{" +
-                "products=" + products +
-                ", totalPrice=" + totalPrice +
-                '}';
+        return  "Productos: \n" + products + "\n" +
+                " - Precio total: $ " + totalPrice;
     }
 }
