@@ -10,25 +10,23 @@ public class Menu {
     public Menu() {
     }
 
-    /******************************************************************
-     Imprime visualizacion de inicio
-     ******************************************************************/
+    public void printHeader(String header){
+        System.out.println("***************************************");
+        System.out.println("\t " + header);
+        System.out.println("***************************************");
+    }
 
-    public void startMenu(){
-        System.out.println("\n o88                o88                o88                                  oooo");
-        System.out.println("\n oooo  oo oooooo    oooo    ooooooo    oooo    ooooooo   oo oooooo     ooooo888    ooooooo");
-        System.out.println("\n  888   888   888    888  888     888   888    ooooo888   888   888  888    888  888     888");
-        System.out.println("\n  888   888   888    888  888           888  888    888   888   888  888    888  888     888");
-        System.out.println("\n o888o o888o o888o  o888o   88ooo888   o888o  88ooo88 8o o888o o888o   88ooo888o   88ooo88");
-        for(int i = 0; i<3; i++)
-        {
-            System.out.println("\tOoO");
-        }
+    public void cleanScreen() {
+        for(int i = 0; i< 30; ++i)
+            System.out.println("");
+
+        System.out.flush();
     }
 
     public void printIncorrectAnswer(){
         System.out.println("\n\t--- Opcion incorrecta ---\n\n");
     }
+
     public void pause(){
         System.out.print("\nPresione cualquier tecla para continuar...");
         new Scanner(System.in).nextLine();
@@ -73,16 +71,7 @@ public class Menu {
         }
     }
 
-    /********************************************************************************
-     No esta funcionando :(
-     *********************************************************************************/
 
-    public void cleanScreen() {
-        for(int i = 0; i< 14; ++i)
-            System.out.println("");
-
-        System.out.flush();
-    }
 
     /****************************************************************************
      Funcionalidades del usuario Administrador
@@ -249,8 +238,7 @@ public class Menu {
            int roomNumber = this.enterNumber("el numero de habitacion");
            Room room = user.findRoom(roomNumber,rooms);
             if(room != null){
-                List<Guest> roomGuests = new ArrayList<>();
-                roomGuests = registerRoomGuests(user, guests);
+                List<Guest> roomGuests = registerRoomGuests(user, guests);
                 String stringDate = DateHelper.enterDate();
                 Date checkInDate = DateHelper.stringToDate(stringDate);
                 String stringDate2 = DateHelper.enterDate();
@@ -343,7 +331,7 @@ public class Menu {
         System.out.println("\t \\_| |_/\\__,_|___/\\__\\__,_| \\_____/\\__,_|\\___|\\__, |\\___/");
         System.out.println("\t                                               __/ |       ");
         System.out.println("\t                                              |___/        ");
-        System.out.println("\n\n\n\n\n\n");
+        System.out.println(" ");
     }
     
 }

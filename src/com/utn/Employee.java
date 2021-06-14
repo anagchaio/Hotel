@@ -52,48 +52,30 @@ public abstract class Employee extends Person implements Serializable {
 
     public void showEmployees(List<Employee> employees){
         for(Employee employee:employees){
-            System.out.println(employee.toString());
+            System.out.println(employee.toString() + "\n");
         }
     }
 
     public void showProducts(List<Product> products){
         for(Product product:products){
-            System.out.println(product.toString());
+            System.out.println(product.toString() + "\n");
         }
     }
 
     public void showReservations(List<Reservation> reservations){
         for (Reservation reservation: reservations){
             if(reservation.isActive() == true){
-                System.out.println(reservation.toString());
-            }
-        }
-    }
-
-    public void showGuests(List<Guest> guests, boolean isActive){
-        if(isActive){
-            for(Guest guest:guests){
-                if(guest.isActive()){
-                    System.out.println(guest.toString());
-                }
-            }
-        } else {
-            for(Guest guest:guests){
-                if(!guest.isActive()){
-                    System.out.println(guest.toString());
-                }
+                System.out.println(reservation.toString() + "\n");
             }
         }
     }
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", " + super.toString() +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "Employee id: " + id +
+                ",\n " + super.toString() +
+                ",\n userName: " + userName  +
+                ", password: " + password;
     }
 
     @Override

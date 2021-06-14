@@ -15,14 +15,9 @@ public class Main {
         List<Invoice> invoices = new ArrayList<>();
         List<Product> products = new ArrayList<>();
 
-/*        Administrator admin = new Administrator("admin","admin","123",22,"admin","admin");
-        Recepcionist anagchaio = new Recepcionist("Ana","Gonzalez","34500998",32,"anagchaio","pass");
-        employees.add(admin);
-        employees.add(anagchaio);*/
 
         /* Carga de Archivos */
         ToFile<Employee> employeeFile = new ToFile<>("employees.dat");
-        //employeeFile.save(employees);
         employees = employeeFile.load();
         if (employees.size() > 1) {
             Employee.setCounter(employees.size()+1);
@@ -33,9 +28,11 @@ public class Main {
 
 
         ToFile<Reservation> reservationFile = new ToFile<>("reservations.dat");
-
-        reservationFile.save(reservations);
         reservations = reservationFile.load();
+
+        for (Reservation reservation:reservations){
+            System.out.println(reservation.toString());
+        }
         if(reservations.size()>1)
             Reservation.setCounter(reservations.size()+1);
 
@@ -59,7 +56,7 @@ public class Main {
         do
         {
             menu.cleanScreen();
-            System.out.println("\tBienvenidos");
+            menu.printHeader("\t\t BIENVENIDOS");
             System.out.println("\n\t 1. Ingresar");
             System.out.println("\n\t 0. Guardar y salir");
             option = menu.enterNumber("la opcion");
@@ -74,10 +71,12 @@ public class Main {
                     guestFile.save(guests);
                     invoiceFile.save(invoices);
                     productFile.save(products);
+                    System.out.println("* Todos los cambios fueron guardados *\n\n\n");
                     menu.printExitMessage();
                     break;
                 case 1:
                     menu.cleanScreen();
+                    menu.printHeader("\t INGRESO AL SISTEMA");
                     Employee user = menu.login(employees);
 
                     if(user != null){
@@ -90,7 +89,7 @@ public class Main {
                     if(user instanceof Administrator) {
                         do {
                             menu.cleanScreen();
-                            System.out.println("Administracion");
+                            menu.printHeader("\t\t ADMINISTRACION");
                             System.out.println("\n\t 1. Empleados");
                             System.out.println("\n\t 2. Productos");
                             System.out.println("\n\t 3. Precios"); //Change Rooms prices & see invoices - total incomes
@@ -100,7 +99,7 @@ public class Main {
                                 case 1:
                                     do {
                                         menu.cleanScreen();
-                                        System.out.println("Administracion de Empleados");
+                                        menu.printHeader("ADMINISTRACION: Empleados");
                                         System.out.println("\n\t 1. Agregar Administrador");
                                         System.out.println("\n\t 2. Agregar Recepcionista");
                                         System.out.println("\n\t 3. Buscar Empleado");
@@ -110,21 +109,25 @@ public class Main {
                                         switch (option){
                                             case 1:
                                                 menu.cleanScreen();
+                                                menu.printHeader("INGRESOS DE DATOS");
                                                 menu.registerNewEmployee((Administrator) user,employees,UserType.ADMINISTRATOR);
                                                 menu.pause();
                                                 break;
                                             case 2:
                                                 menu.cleanScreen();
+                                                menu.printHeader("INGRESOS DE DATOS");
                                                 menu.registerNewEmployee((Administrator) user,employees,UserType.RECEPTIONIST);
                                                 menu.pause();
                                                 break;
                                             case 3:
                                                 menu.cleanScreen();
+                                                menu.printHeader("BUSQUEDA POR DNI");
                                                 menu.findEmployeeByDni((Administrator) user,employees);
                                                 menu.pause();
                                                 break;
                                             case 4:
                                                 menu.cleanScreen();
+                                                menu.printHeader("LISTADO DE EMPLEADOS");
                                                 user.showEmployees(employees);
                                                 menu.pause();
                                                 break;
@@ -134,7 +137,7 @@ public class Main {
                                 case 2:
                                     do {
                                         menu.cleanScreen();
-                                        System.out.println("Administracion de Productos");
+                                        menu.printHeader("ADMINISTRACION: Productos");
                                         System.out.println("\n\t 1. Agregar Producto");
                                         System.out.println("\n\t 2. Listado de Productos");
                                         System.out.println("\n\t 3. Volver al menu anterior");
@@ -142,12 +145,13 @@ public class Main {
                                         switch(option) {
                                             case 1:
                                                 menu.cleanScreen();
-                                                System.out.println("Proximamente");
+                                                menu.printHeader("INGRESOS DE DATOS");
                                                 menu.addProduct(products);
                                                 menu.pause();
                                                 break;
                                             case 2:
                                                 menu.cleanScreen();
+                                                menu.printHeader("LISTADO DE PRODUCTOS");
                                                 user.showProducts(products);
                                                 menu.pause();
                                                 break;
@@ -157,7 +161,7 @@ public class Main {
                                 case 3:
                                     do {
                                         menu.cleanScreen();
-                                        System.out.println("Administracion de Precios");
+                                        menu.printHeader("ADMINISTRACION: Precios");
                                         System.out.println("\n\t 1. Habitaciones: cambiar Costo");
                                         System.out.println("\n\t 2. Listado de Facturas");
                                         System.out.println("\n\t 3. Ingresos totales");
@@ -167,7 +171,7 @@ public class Main {
                                             case 1:
                                                 do {
                                                     menu.cleanScreen();
-                                                    System.out.println("Cambio de precio");
+                                                    menu.printHeader("HABITACIONES - Precios");
                                                     System.out.println("\n\t 1. SIMPLE");
                                                     System.out.println("\n\t 2. DOUBLE");
                                                     System.out.println("\n\t 3. SUITE");
@@ -176,16 +180,19 @@ public class Main {
                                                     switch(option) {
                                                         case 1:
                                                             menu.cleanScreen();
+                                                            menu.printHeader("HABITACION SIMPLE");
                                                             menu.changeRoomPrice((Administrator) user,rooms,RoomType.SIMPLE);
                                                             menu.pause();
                                                             break;
                                                         case 2:
                                                             menu.cleanScreen();
+                                                            menu.printHeader("HABITACION DOUBLE");
                                                             menu.changeRoomPrice((Administrator) user,rooms,RoomType.DOUBLE);
                                                             menu.pause();
                                                             break;
                                                         case 3:
                                                             menu.cleanScreen();
+                                                            menu.printHeader("HABITACION SUITE");
                                                             menu.changeRoomPrice((Administrator) user,rooms,RoomType.SUITE);
                                                             menu.pause();
                                                             break;
@@ -195,11 +202,13 @@ public class Main {
                                                 break;
                                             case 2:
                                                 menu.cleanScreen();
+                                                menu.printHeader("lISTADO DE FACTURAS");
                                                 ((Administrator) user).showInvoices(invoices);
                                                 menu.pause();
                                                 break;
                                             case 3:
                                                 menu.cleanScreen();
+                                                menu.printHeader("INGRESOS HOTEL");
                                                 menu.showTotalIncomes((Administrator) user,invoices);
                                                 menu.pause();
                                                 break;
@@ -214,7 +223,7 @@ public class Main {
                     if(user instanceof Recepcionist) {
                         do {
                             menu.cleanScreen();
-                            System.out.println("Recepcion");
+                            menu.printHeader("RECEPCION");
                             System.out.println("\n\t 1. Tomar Reservas");
                             System.out.println("\n\t 2. Cancelar Reserva");
                             System.out.println("\n\t 3. Mostrar Reservas");
@@ -227,37 +236,44 @@ public class Main {
                             switch(option) {
                                 case 1:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Crear Reserva");
                                     menu.registerNewReservation((Recepcionist) user,rooms,guests,reservations);
                                     menu.pause();
                                     break;
                                 case 2:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Cancelar Reserva");
                                     menu.cancelReservation((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
                                 case 3:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Listado de Reservas");
                                     user.showReservations(reservations);
                                     menu.pause();
                                     break;
 
                                 case 4:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Check-In");
                                     menu.checkIn((Recepcionist) user,reservations,rooms);
                                     menu.pause();
                                     break;
                                 case 5:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Check-out");
                                     menu.checkOut((Recepcionist) user,rooms,invoices);
                                     menu.pause();
                                     break;
                                 case 6:
                                     menu.cleanScreen();
+                                    menu.printHeader("LISTADO DE HABITACIONES");
                                     user.showRooms(rooms);
                                     menu.pause();
                                     break;
                                 case 7:
                                     menu.cleanScreen();
+                                    menu.printHeader("RECEPCION: Servicio a Habitacion");
                                     menu.roomService((Recepcionist) user, products, rooms);
                                     menu.pause();
                                     break;

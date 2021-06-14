@@ -10,12 +10,12 @@ public class Invoice implements Serializable {
 
     private static int counter = 1; //se setea con la lenth de la lista obtenida del archivo (si el lenth es 0 -> el counter vale 1)
     private int idInvoice;
-    private List<Guest> guests;
+    private Guest guest;
     private Date date;
     private Double price;
 
-    public Invoice(List<Guest> guests, Date date, Double price) {
-        this.guests = guests;
+    public Invoice(Guest guest, Date date, Double price) {
+        this.guest = guest;
         this.date = date;
         this.price = price;
         this.idInvoice = counter++;
@@ -34,12 +34,12 @@ public class Invoice implements Serializable {
         this.idInvoice = idInvoice;
     }
 
-    public List<Guest> getGuest() {
-        return guests;
+    public Guest getGuest() {
+        return guest;
     }
 
-    public void setGuest(List<Guest>  guests) {
-        this.guests = guests;
+    public void setGuest(Guest  guests) {
+        this.guest = guests;
     }
 
     public Date getDate() {
@@ -60,12 +60,10 @@ public class Invoice implements Serializable {
 
     @Override
     public String toString() {
-        return "Payment{" +
-                "idPayment=" + idInvoice +
-                ", guests=" + guests +
-                ", date=" + date +
-                ", price=" + price +
-                '}';
+        return "Nro Factura: " + idInvoice +
+                ",\n Huesped: " + guest +
+                ",\n Fecha: " + date +
+                ",\n Precio total: $" + price;
     }
 
     @Override

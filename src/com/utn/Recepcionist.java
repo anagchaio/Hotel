@@ -64,7 +64,7 @@ public class Recepcionist extends Employee implements Serializable {
         for(Reservation reservation:reservations){
             if(reservation.getIdReservation() == reservationId){
                 Room reservedRoom = reservation.getRoom();
-                reservations.remove(reservation);
+                reservation.setActive(false);
                 for(Room room:rooms){
                     if(reservedRoom.equals(room)){
                         room.setRoomState(RoomState.OCCUPIED);
@@ -77,11 +77,12 @@ public class Recepcionist extends Employee implements Serializable {
     }
 
     public Invoice checkOut(int roomNumber, List<Room> rooms) throws NullPointerException {
-        Invoice invoice;
         try{
             for(Room room:rooms){
                 if(room.getRoomNumber() == roomNumber && room.getRoomState().getState() == RoomState.OCCUPIED.getState()){
-                    invoice = new Invoice(room.getRoomGuests(), java.sql.Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
+                    Guest guest = new Guest();
+                    guest = room.getRoomGuests().get(0);
+                    Invoice invoice = new Invoice(guest, java.sql.Date.valueOf(LocalDate.now()),this.getRoomTotalPrice(room));
                     if(room.getRoomGuests() != null){
                         room.getRoomGuests().removeAll(room.getRoomGuests());
                     }

@@ -60,7 +60,7 @@ public class Administrator extends Employee implements Serializable {
 
     public void showInvoices(List<Invoice> invoices){
         for(Invoice invoice:invoices){
-            System.out.println(invoice.toString());
+            System.out.println(invoice.toString() + "\n");
         }
     }
 

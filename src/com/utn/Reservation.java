@@ -1,10 +1,6 @@
 package com.utn;
 
-import com.utn.Helpers.DateHelper;
-
 import java.io.Serializable;
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -64,21 +60,19 @@ public class Reservation implements Serializable {
 
     private String showState(){
         if(isActive){
-            return "ACTIVE";
+            return "ACTIVA";
         } else {
-            return "CANCELLED";
+            return "CANCELADA";
         }
     }
     @Override
     public String toString() {
-        return "Reservation{" +
-                "idReservation=" + idReservation +
-                ", room=" + room +
-                ", Guests=" + Guests +
-                ", checkInDate=" + checkInDate +
-                ", checkOutDate=" + checkOutDate +
-                ", " + this.showState() +
-                '}';
+        return  "Reservation ID:" + idReservation +
+                ",\n " + room +
+                ",\n List of Guests:" + Guests +
+                ",\n checkIn Date: " + checkInDate +
+                ",\n checkOut Date: " + checkOutDate +
+                ",\n " + this.showState();
     }
 
     @Override

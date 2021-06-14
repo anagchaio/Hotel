@@ -7,6 +7,10 @@ public class Guest extends Person implements Serializable {
 
     private boolean isActive;
 
+    public Guest(){
+
+    }
+
     public Guest(String name, String surname, String dni, Integer age) {
         super(name, surname, dni, age);
         this.isActive = true;
